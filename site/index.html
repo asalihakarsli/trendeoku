@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* Renk: önce nötr gri tonlar, vurgu için tek bir ana renk (ABB mavisi). */
+
 :root{
   --abb:#274189;          /* ana renk: ABB mavisi */
   --abb-koyu:#1d3170;
@@ -28,7 +28,6 @@
 body{margin:0;background:var(--zemin);color:var(--metin);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:var(--y0);line-height:1.6}
 .kap{max-width:760px;margin:0 auto;padding:0 var(--a3)}
 
-/* Üst bölüm: tek başlık, tek cümle */
 .ust-bolum{background:var(--abb);color:#fff;padding:calc(var(--a5) + env(safe-area-inset-top,0px)) 0 var(--a5)}
 @media (prefers-color-scheme:dark){.ust-bolum{background:var(--abb-koyu)}}
 h1{margin:0 0 var(--a2);font-size:clamp(var(--y4),7vw,var(--y5));line-height:1.1;font-weight:700}
@@ -38,7 +37,6 @@ main{padding:calc(var(--a6) + var(--a4)) 0 var(--a6)}
 h2{margin:0 0 var(--a1);font-size:var(--y2);line-height:1.25;font-weight:600}
 .yardim{margin:0 0 var(--a3);color:var(--soluk)}
 
-/* Şehir seçimi: ekrandaki tek ana eylem */
 .sehirler{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--a2);margin-bottom:var(--a5)}
 .sehir{font:inherit;color:inherit;text-align:left;cursor:pointer;background:var(--kart);border:1.5px solid var(--cizgi);border-radius:8px;padding:var(--a2);display:flex;flex-direction:column;gap:2px;box-shadow:0 3px 8px -4px var(--golge)}
 .sehir b{font-weight:600}
@@ -48,7 +46,6 @@ h2{margin:0 0 var(--a1);font-size:var(--y2);line-height:1.25;font-weight:600}
 .sehir[aria-pressed="true"]{background:var(--abb);border-color:var(--abb);color:#fff}
 .sehir[aria-pressed="true"] span{color:#e6ebf8}
 
-/* Sonuçlar: aynı kart, aynı aralık, tekrar eden ritim */
 .not{margin:0 0 var(--a3);color:var(--soluk);max-width:60ch}
 .bos{padding:var(--a3);border:1.5px dashed var(--cizgi);border-radius:8px;color:var(--soluk)}
 .kitap{background:var(--kart);border:1px solid var(--cizgi);border-radius:8px;padding:var(--a3);margin:0 0 var(--a3);box-shadow:0 8px 16px -10px var(--golge)}
@@ -62,7 +59,6 @@ h2{margin:0 0 var(--a1);font-size:var(--y2);line-height:1.25;font-weight:600}
 .daha{font:inherit;font-weight:600;padding:12px var(--a3);background:transparent;color:var(--abb);border:1.5px solid var(--abb);border-radius:8px;cursor:pointer}
 .daha:hover{background:var(--abb-ton)}
 
-/* Kademeli gösterim: notlar istenince açılır */
 details{margin-top:var(--a5);padding-top:var(--a3);border-top:1px solid var(--cizgi);color:var(--soluk);font-size:.9375rem}
 summary{cursor:pointer;font-weight:600;color:var(--metin)}
 details p{margin:var(--a2) 0 0;max-width:64ch}
@@ -100,7 +96,6 @@ details p{margin:var(--a2) 0 0;max-width:64ch}
 </main>
 
 <script>
-// Ankara’dan yaklaşık tren yolculuğu süreleri (saat) — recommender.py ile aynı.
 const SEHIRLER = [
   ["Eskişehir",1.5],["Konya",1.8],["Sivas",2.0],["Karaman",2.7],["İstanbul",5.0],
   ["Kayseri",7.0],["Adana",11.0],["İzmir",14.0],["Erzurum",22.0],["Diyarbakır",23.0],["Kars",26.0]
@@ -175,7 +170,7 @@ function sec(s){
   secili = s; gosterilen = ADIM;
   hat.querySelectorAll(".sehir").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ad === s[0])));
   goster();
-  // Sonuç ekranın altında kaldıysa göze getir (kullanıcı kaybolmasın).
+ 
   if (sonuc.getBoundingClientRect().top > window.innerHeight * 0.6) {
     const az = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     sonuc.scrollIntoView({behavior: az ? "auto" : "smooth", block: "start"});
