@@ -11,9 +11,6 @@ import pandas as pd
 VERI_YOLU = Path(__file__).resolve().parent / "data" / "gar_kutuphanesi_veriseti.csv"
 SURE_SUTUNU = "Tahmini Okunma Süresi (Saat)"
 
-# Ankara'dan yaklaşık tren yolculuğu süreleri (saat).
-# Süreler yaklaşıktır, resmi tarifeyle doğrulanmalıdır.
-# Kayseri ve sonrasındaki hatlar hızlı tren (YHT) değil, konvansiyonel trenlerdir.
 YOLCULUK_SURELERI = {
     "Eskişehir": 1.5,
     "Konya": 1.8,
