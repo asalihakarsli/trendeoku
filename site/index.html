@@ -7,236 +7,267 @@
 <meta name="description" content="Ankara YHT Gar Kütüphanesi kataloğundan tren yolculuğunuzun süresine sığan kitapları bulun.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'media',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"IBM Plex Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        },
+        colors: {
+          abb: {
+            DEFAULT: '#274189',
+            dark: '#1b2e66',
+            light: '#3b59ad',
+            tint: '#eef2fb',
+          }
+        }
+      }
+    }
+  }
+</script>
 <style>
-:root{
-  --abb:#274189;
-  --abb-koyu:#1d3170;
-  --abb-ton:#e9edf7;
-  --zemin:#f4f5f8; --kart:#ffffff; --kutu:#f0f2f6;
-  --metin:#1c2330; --soluk:#566072; --cizgi:#d5dae3;
-  --golge:rgba(20,30,70,.12);
-  --a1:8px; --a2:16px; --a3:24px; --a4:32px; --a5:48px; --a6:64px;
-  --y0:1rem; --y1:1.25rem; --y2:1.5625rem; --y3:1.953rem; --y4:2.441rem; --y5:3.05rem;
-}
-@media (prefers-color-scheme:dark){
-  :root{--abb:#5b7bd6; --abb-koyu:#1b2a5e; --abb-ton:#222c4a; --zemin:#12161d; --kart:#1b212b; --kutu:#242b38; --metin:#e8ecf3; --soluk:#a3adbd; --cizgi:#343c4b; --golge:rgba(0,0,0,.45);}
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--zemin);color:var(--metin);font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:var(--y0);line-height:1.6}
-.kap{max-width:960px;margin:0 auto;padding:0 var(--a3)}
-
-/* Üst bölüm */
-.ust-bolum{background:var(--abb);color:#fff;padding:calc(var(--a5) + env(safe-area-inset-top,0px)) 0 var(--a5)}
-@media (prefers-color-scheme:dark){.ust-bolum{background:var(--abb-koyu)}}
-h1{margin:0 0 var(--a2);font-size:clamp(var(--y4),7vw,var(--y5));line-height:1.1;font-weight:700}
-.giris{margin:0;max-width:58ch;font-size:var(--y1);line-height:1.5;color:#e6ebf8}
-
-main{padding:var(--a5) 0 var(--a6)}
-h2{margin:0 0 var(--a1);font-size:var(--y2);line-height:1.25;font-weight:600}
-
-/* Rota & Bilet Seçim Paneli */
-.rota-panel{
-  background:var(--kart);
-  border:1px solid var(--cizgi);
-  border-radius:12px;
-  padding:32px 36px 36px;
-  margin-bottom:var(--a5);
-  box-shadow:0 10px 28px -10px var(--golge);
-}
-
-/* Tek Yön / Gidiş-Dönüş Seçicisi */
-.yon-secim{display:flex;flex-wrap:wrap;gap:28px;margin-bottom:24px;align-items:center}
-.radyo-etiket{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:600;font-size:1.05rem;color:var(--metin);user-select:none}
-.radyo-etiket input{appearance:none;width:22px;height:22px;border:2px solid var(--cizgi);border-radius:50%;margin:0;display:grid;place-content:center;cursor:pointer;background:var(--kart);transition:border-color .15s}
-.radyo-etiket input::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--abb);transform:scale(0);transition:transform .15s ease}
-.radyo-etiket input:checked{border-color:var(--abb)}
-.radyo-etiket input:checked::before{transform:scale(1)}
-.radyo-etiket input:focus-visible{outline:3px solid var(--abb);outline-offset:2px}
-
-/* Nereden - Swap - Nereye Dikdörtgen Kutuları */
-.guzergah{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
-.durak-kutu{
-  background:var(--kutu);
-  border:1.5px solid var(--cizgi);
-  border-radius:8px;
-  padding:18px 24px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  min-height:112px;
-  position:relative;
-  transition:border-color .15s,background .15s;
-}
-.durak-kutu:focus-within{border-color:var(--abb);background:var(--kart)}
-.durak-kutu .etiket{font-size:.875rem;font-weight:600;color:var(--soluk);margin-bottom:4px}
-.durak-kutu .ana-deger{font-size:1.45rem;font-weight:700;color:var(--metin);line-height:1.25}
-.durak-kutu .alt-bilgi{font-size:.9rem;color:var(--soluk);margin-top:4px}
-
-.durak-kutu select{
-  appearance:none;
-  font:inherit;
-  font-size:1.45rem;
-  font-weight:700;
-  color:var(--metin);
-  background:transparent;
-  border:0;
-  padding:0 30px 0 0;
-  margin:0;
-  width:100%;
-  cursor:pointer;
-  line-height:1.25;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23566072' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat:no-repeat;
-  background-position:right center;
-}
-.durak-kutu select option{background:var(--kart);color:var(--metin);font-weight:600;font-size:1rem}
-.durak-kutu select:focus{outline:none}
-
-/* Ortadaki Yön Değiştirme (Swap) Butonu */
-.degistir-btn{
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  border:1.5px solid var(--cizgi);
-  background:var(--kart);
-  color:var(--abb);
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  box-shadow:0 3px 10px var(--golge);
-  transition:transform .2s ease,border-color .15s,background .15s;
-  z-index:2;
-}
-.degistir-btn:hover{border-color:var(--abb);background:var(--abb-ton)}
-.degistir-btn:active{transform:scale(.94)}
-.degistir-btn:focus-visible{outline:3px solid var(--abb);outline-offset:2px}
-.degistir-btn svg{width:22px;height:22px;transition:transform .25s ease}
-.degistir-btn[data-ters="true"] svg{transform:rotate(180deg)}
-
-/* Sonuçlar */
-.not{margin:0 0 var(--a3);color:var(--soluk);max-width:66ch}
-.bos{padding:var(--a3);border:1.5px dashed var(--cizgi);border-radius:8px;color:var(--soluk)}
-.kitap{background:var(--kart);border:1px solid var(--cizgi);border-radius:8px;padding:var(--a3);margin:0 0 var(--a3);box-shadow:0 8px 16px -10px var(--golge)}
-.kitap h3{margin:0;font-size:var(--y1);line-height:1.3;font-weight:700}
-.yazar{margin:2px 0 var(--a3);color:var(--soluk)}
-.cubuk{height:8px;background:var(--abb-ton);border-radius:4px;overflow:hidden}
-.cubuk i{display:block;height:100%;background:var(--abb);width:0;border-radius:4px;transition:width .4s ease}
-.durum{margin:var(--a1) 0 var(--a3);font-size:.9375rem}
-.alt{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:var(--a1) var(--a2);padding-top:var(--a2);border-top:1px solid var(--cizgi);color:var(--soluk);font-size:.9375rem}
-.kitap a{color:var(--abb);font-weight:600}
-.daha{font:inherit;font-weight:600;padding:12px var(--a3);background:transparent;color:var(--abb);border:1.5px solid var(--abb);border-radius:8px;cursor:pointer}
-.daha:hover{background:var(--abb-ton)}
-
-/* Notlar */
-details{margin-top:var(--a5);padding-top:var(--a3);border-top:1px solid var(--cizgi);color:var(--soluk);font-size:.9375rem}
-summary{cursor:pointer;font-weight:600;color:var(--metin)}
-details p{margin:var(--a2) 0 0;max-width:68ch}
-
-@media (max-width:680px){
-  .rota-panel{padding:20px}
-  .guzergah{grid-template-columns:1fr;gap:10px}
-  .durak-kutu{min-height:92px;padding:14px 18px}
-  .durak-kutu .ana-deger,.durak-kutu select{font-size:1.25rem}
-  .degistir-btn{justify-self:center;margin:-16px 0;width:42px;height:42px;transform:rotate(90deg)}
-  .degistir-btn:active{transform:rotate(90deg) scale(.94)}
-  .degistir-btn[data-ters="true"] svg{transform:rotate(180deg)}
-  .kitap{padding:var(--a2)}
-}
-@media (prefers-reduced-motion:reduce){.cubuk i,.degistir-btn,.degistir-btn svg{transition:none}}
+  /* Özel seçici oku ve geçiş yumuşatmaları */
+  .custom-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23566072' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+  }
+  @media (prefers-color-scheme: dark) {
+    .custom-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+  }
+  .swap-icon {
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .swap-btn[data-reversed="true"] .swap-icon {
+    transform: rotate(180deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .swap-icon, .progress-fill { transition: none !important; }
+  }
 </style>
 </head>
-<body>
-<header class="ust-bolum">
-  <div class="kap">
-    <h1>Trende ne okusam?</h1>
-    <p class="giris">Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.</p>
-  </div>
-</header>
+<body class="bg-[#f4f6fa] dark:bg-[#0f131a] text-[#1c2330] dark:text-[#e8ecf3] font-sans antialiased selection:bg-abb selection:text-white">
 
-<main class="kap">
-  <section class="rota-panel" aria-label="Yolculuk planı">
-    <div class="yon-secim" role="radiogroup" aria-label="Yolculuk tipi">
-      <label class="radyo-etiket">
-        <input type="radio" name="yolculukTipi" value="tek" checked>
-        <span>Tek Yön</span>
-      </label>
-      <label class="radyo-etiket">
-        <input type="radio" name="yolculukTipi" value="gidisDonus">
-        <span>Gidiş-Dönüş</span>
-      </label>
+  <!-- Üst Kahraman (Hero) Alanı: Arama panelini içine alacak şekilde dengeli alt boşluk -->
+  <header class="bg-gradient-to-br from-[#1f3675] via-[#274189] to-[#2e4c9e] dark:from-[#15224a] dark:via-[#1b2d61] dark:to-[#223775] text-white pt-10 pb-24 sm:pt-12 sm:pb-28 px-4 sm:px-6">
+    <div class="max-w-[840px] mx-auto">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs sm:text-sm font-medium text-blue-100 mb-4">
+        <svg class="w-4 h-4 text-blue-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+        </svg>
+        <span>Ankara YHT Gar Kütüphanesi Kataloğu</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-[42px] font-bold tracking-tight leading-[1.15] mb-3">
+        Trende ne okusam?
+      </h1>
+      <p class="text-base sm:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
+        Güzergahınızı ve yolculuk tipinizi seçin; tren yolculuğunuzun süresine tam sığan kitapları kataloğumuzdan önerelim.
+      </p>
     </div>
+  </header>
 
-    <div class="guzergah" id="guzergah"></div>
-  </section>
+  <!-- Ana İçerik Konteyneri: Tek bir dikey ızgara çizgisi (840px) -->
+  <main class="max-w-[840px] mx-auto px-4 sm:px-6 pb-16">
 
-  <section id="sonuc" aria-live="polite">
-    <div class="bos">Önerileri görmek için yukarıdan bir şehir seçin.</div>
-  </section>
+    <!-- Üst Alana Bindirilmiş (Overlapping) Bilet/Rota Arama Kartı -->
+    <section aria-label="Yolculuk planı" class="-mt-16 sm:-mt-20 bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-5 sm:p-7 mb-10">
 
-  <details>
-    <summary>Notlar ve sınırlamalar</summary>
-    <p>Okunma süresi, sayfa sayısının saatte 40 sayfa okuma hızına bölünmesiyle tahmin edilir. Herkesin hızı farklıdır.</p>
-    <p>Yolculuk süreleri yaklaşık değerdir; bilet almadan önce resmi tarifeyi kontrol edin. Kayseri ve sonrasındaki hatlar hızlı tren değil, konvansiyonel trenlerdir.</p>
-    <p>Veri, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan 50 kitaplık bir örnektir; kütüphanenin tamamını kapsamaz.</p>
-  </details>
-</main>
+      <!-- Üst Satır: Tek Yön / Gidiş-Dönüş Segmented Seçici + Bilgi Rozeti -->
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <div class="inline-flex p-1 rounded-lg bg-[#f0f3f9] dark:bg-[#222a38] border border-[#e2e7f0] dark:border-[#303a4d]" role="radiogroup" aria-label="Yolculuk tipi">
+          <label class="cursor-pointer">
+            <input type="radio" name="yolculukTipi" value="tek" class="sr-only peer" checked>
+            <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
+              Tek Yön
+            </span>
+          </label>
+          <label class="cursor-pointer">
+            <input type="radio" name="yolculukTipi" value="gidisDonus" class="sr-only peer">
+            <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
+              Gidiş-Dönüş
+            </span>
+          </label>
+        </div>
+
+        <span class="text-xs font-medium text-[#566072] dark:text-[#94a3b8] flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          Saatte ~40 sayfa okuma hızı baz alınır
+        </span>
+      </div>
+
+      <!-- Orta Satır: Bitişik Nereden - [⇄] - Nereye Dikdörtgen Kutuları -->
+      <div id="guzergah" class="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-2 md:gap-0">
+        <!-- JS tarafından doldurulur -->
+      </div>
+    </section>
+
+    <!-- Sonuçlar veya Karşılama Alanı -->
+    <section id="sonuc" aria-live="polite">
+      <!-- JS tarafından doldurulur -->
+    </section>
+
+    <!-- Notlar ve Sınırlamalar (Kademeli Gösterim) -->
+    <details class="mt-12 pt-6 border-t border-[#dce1ec] dark:border-[#2c3545] text-sm text-[#566072] dark:text-[#9ba5b8] group">
+      <summary class="cursor-pointer font-semibold text-[#1c2330] dark:text-[#e8ecf3] flex items-center justify-between select-none list-none">
+        <span>Notlar ve sınırlamalar</span>
+        <svg class="w-4 h-4 text-[#566072] transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </summary>
+      <div class="mt-3 space-y-2 leading-relaxed max-w-3xl">
+        <p>• Okunma süresi, sayfa sayısının saatte 40 sayfa ortalama okuma hızına bölünmesiyle tahmin edilir. Kişisel okuma hızınıza göre farklılık gösterebilir.</p>
+        <p>• Yolculuk süreleri yaklaşık değerlerdir; bilet almadan önce TCDD Taşımacılık resmi tarifesini kontrol ediniz. Kayseri ve sonrasındaki hatlar YHT değil, konvansiyonel ana hat trenleridir.</p>
+        <p>• Veri seti, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan 50 kitaplık örnek koleksiyondan oluşmaktadır.</p>
+      </div>
+    </details>
+  </main>
 
 <script>
+// Ankara'dan yaklaşık tren yolculuğu süreleri (saat)
 const SEHIRLER = [
-  ["Eskişehir",1.5],["Konya",1.8],["Sivas",2.0],["Karaman",2.7],["İstanbul",5.0],
-  ["Kayseri",7.0],["Adana",11.0],["İzmir",14.0],["Erzurum",22.0],["Diyarbakır",23.0],["Kars",26.0]
+  ["Eskişehir", 1.5],
+  ["Konya", 1.8],
+  ["Sivas", 2.0],
+  ["Karaman", 2.7],
+  ["İstanbul", 5.0],
+  ["Kayseri", 7.0],
+  ["Adana", 11.0],
+  ["İzmir", 14.0],
+  ["Erzurum", 22.0],
+  ["Diyarbakır", 23.0],
+  ["Kars", 26.0]
 ];
+
+// Önizleme ve çevrimdışı çalışma için yerleşik veri seti (kitaplar.json yüklenemezse devreye girer)
+const YEDEK_KITAPLAR = [
+  {"ad":"Ben'i ararken","yazar":"Diker, Seda","dil":"TR","sayfa":432,"sure":10.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=12"},
+  {"ad":"Havva","yazar":"Işınsu, Emine","dil":"TR","sayfa":184,"sure":4.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=13"},
+  {"ad":"Acı çekirdek","yazar":"Yener, Aylin İşcan","dil":"TR","sayfa":202,"sure":5.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=14"},
+  {"ad":"Bir vatan aşkına: Çerkes Ethem ve ailesinin gerçek öyküsü","yazar":"Kuban, Güner","dil":"TR","sayfa":491,"sure":12.3,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=15"},
+  {"ad":"Fransız kadın yolcu","yazar":"Aklan, Rıdvan","dil":"TR","sayfa":161,"sure":4.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=16"},
+  {"ad":"Kıskaç","yazar":"Boralıoğlu, Aysun","dil":"TR","sayfa":287,"sure":7.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=17"},
+  {"ad":"Kutsal anlaşma","yazar":"Sipahi, Sevilay","dil":"TR","sayfa":340,"sure":8.5,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=18"},
+  {"ad":"Sırlı gök: bir Göbeklitepe hikayesi","yazar":"Erdoğan, Serra","dil":"TR","sayfa":208,"sure":5.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=19"},
+  {"ad":"Meluncanlar: Osmanlı'dan Amerika'ya","yazar":"Ünver, Mine Sultan","dil":"TR","sayfa":295,"sure":7.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=20"},
+  {"ad":"Lütfen beni öldür","yazar":"Karahan, Hakan","dil":"TR","sayfa":273,"sure":6.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=21"},
+  {"ad":"Taze başlangıç","yazar":"Keskinoğlu, Dicle","dil":"TR","sayfa":212,"sure":5.3,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=22"},
+  {"ad":"Kanatsız melekler: kader deyip susmalı mı?","yazar":"Şahin, Sabahat","dil":"TR","sayfa":192,"sure":4.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=23"},
+  {"ad":"Serçeler düşerken","yazar":"Irmak, Sezgin","dil":"TR","sayfa":247,"sure":6.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=24"},
+  {"ad":"Yeryüzü göçebeleri","yazar":"Akay, Meliha","dil":"TR","sayfa":386,"sure":9.7,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=25"},
+  {"ad":"Masumlar mezatı","yazar":"Karani, Arda","dil":"TR","sayfa":242,"sure":6.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=26"},
+  {"ad":"Kalbim pera","yazar":"İnan, Birol","dil":"TR","sayfa":255,"sure":6.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=27"},
+  {"ad":"Peşimdeki melek","yazar":"Akıncı, Yılmaz","dil":"TR","sayfa":158,"sure":4.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=28"},
+  {"ad":"Çilek koklayan adam","yazar":"Ergök, Hakkı","dil":"TR","sayfa":158,"sure":4.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=29"},
+  {"ad":"Karanlığı kucakladım","yazar":"Artunay, Eyüp Emre","dil":"TR","sayfa":244,"sure":6.1,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=30"},
+  {"ad":"İrina","yazar":"Sayar, Esin","dil":"TR","sayfa":285,"sure":7.1,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=31"},
+  {"ad":"Baba ben fenomen oluyorum","yazar":"Aytulun, Ece","dil":"TR","sayfa":262,"sure":6.5,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=32"},
+  {"ad":"Elveda ey duygularım","yazar":"Sayar, Esin","dil":"TR","sayfa":256,"sure":6.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=33"},
+  {"ad":"Ayrılırken tanışalım","yazar":"Mermer, Ayşegül","dil":"TR","sayfa":245,"sure":6.1,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=34"},
+  {"ad":"Kalkıp giden resimler","yazar":"Bozdağ, Sühan","dil":"TR","sayfa":191,"sure":4.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=35"},
+  {"ad":"Çürük","yazar":"Ünver, Mine Sultan","dil":"TR","sayfa":191,"sure":4.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=36"},
+  {"ad":"Gözde bekar","yazar":"Sittenfeld, Curtis","dil":"TR","sayfa":418,"sure":10.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=37"},
+  {"ad":"Biri var: ya birileri seslenirde duymazsan","yazar":"Bilgin, Tuncer","dil":"TR","sayfa":131,"sure":3.3,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=38"},
+  {"ad":"Tatlı ısırık","yazar":"Cassidy, Dakota","dil":"TR","sayfa":436,"sure":10.9,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=39"},
+  {"ad":"Seni gidi küçük şeytan","yazar":"Cassidy, Dakota","dil":"TR","sayfa":368,"sure":9.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=40"},
+  {"ad":"Uyku aralığı","yazar":"Kıran, Batuhan","dil":"TR","sayfa":157,"sure":3.9,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=41"},
+  {"ad":"İzin ver","yazar":"Churm, Almula Merter","dil":"TR","sayfa":245,"sure":6.1,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=42"},
+  {"ad":"Afrika kaplan","yazar":"Patterson, James","dil":"TR","sayfa":296,"sure":7.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=43"},
+  {"ad":"Linç","yazar":"Emiroğlu, Talip","dil":"TR","sayfa":200,"sure":5.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=44"},
+  {"ad":"Kurumsal aşk","yazar":"Vurkaç, Burcu","dil":"TR","sayfa":381,"sure":9.5,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=45"},
+  {"ad":"Assolist","yazar":"Temel, Emina","dil":"TR","sayfa":287,"sure":7.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=46"},
+  {"ad":"Kirli beyaz","yazar":"Yurtsever, Özlem","dil":"TR","sayfa":140,"sure":3.5,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=47"},
+  {"ad":"Bildiğin gibi değil","yazar":"Çelenk, Fatma","dil":"TR","sayfa":295,"sure":7.4,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=48"},
+  {"ad":"Telefonum olmadan asla","yazar":"Kohen, İdil Hazan","dil":"TR","sayfa":233,"sure":5.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=49"},
+  {"ad":"Kız kardeşler diyarı","yazar":"Sittenfeld, Curtis","dil":"TR","sayfa":487,"sure":12.2,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=50"},
+  {"ad":"Kıyam-et işaret 1","yazar":"Erten, Deniz","dil":"TR","sayfa":339,"sure":8.5,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=51"},
+  {"ad":"Hayat oyunu","yazar":"Yıldırım, Aslıhan","dil":"TR","sayfa":240,"sure":6.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=52"},
+  {"ad":"İsfahan'ın gözyaşları","yazar":"İgual, Shahzadeh N","dil":"TR","sayfa":185,"sure":4.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=53"},
+  {"ad":"Metafiziğin temelleri","yazar":"Doko, Enis","dil":"TR","sayfa":264,"sure":6.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=54"},
+  {"ad":"Suça bulaşan adam","yazar":"Cebe, Büşra","dil":"TR","sayfa":504,"sure":12.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=55"},
+  {"ad":"Savcı Bey","yazar":"Kozanoğlu, Abdullah Ziya","dil":"TR","sayfa":244,"sure":6.1,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=56"},
+  {"ad":"Hacı Bayram","yazar":"Işınsu, Emine","dil":"TR","sayfa":383,"sure":9.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=57"},
+  {"ad":"Ak topraklar","yazar":"Işınsu, Emine","dil":"TR","sayfa":194,"sure":4.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=58"},
+  {"ad":"Gök Maral'ın peşinde","yazar":"Gömeç, Saadettin Yağmur","dil":"TR","sayfa":232,"sure":5.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=59"},
+  {"ad":"Hacı Bektaş Veli","yazar":"Işınsu, Emine","dil":"TR","sayfa":2471,"sure":61.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=60"},
+  {"ad":"Sancı","yazar":"Işınsu, Emine","dil":"TR","sayfa":360,"sure":9.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=61"}
+];
+
 const ADIM = 5;
 const guzergahEl = document.getElementById("guzergah");
-const sonuc = document.getElementById("sonuc");
+const sonucEl = document.getElementById("sonuc");
 
-let kitaplar = [];
+let kitaplar = [...YEDEK_KITAPLAR];
 let seciliSehir = "";
 let gidisDonus = false;
 let yonTers = false;
 let gosterilen = ADIM;
 
-const sayi = n => n.toLocaleString("tr-TR", {maximumFractionDigits:1});
+const sayi = n => n.toLocaleString("tr-TR", {maximumFractionDigits: 1});
 const saat = n => sayi(n) + " saat";
 
-function yazarDuzelt(y){
+function yazarDuzelt(y) {
   const p = y.split(", ");
-  return p.length === 2 ? p[1] + " " + p[0] : y;
+  return p.length === 2 ? `${p[1]} ${p[0]}` : y;
 }
-function yuzde(toplam, yolculuk){ return Math.min(100, Math.floor(yolculuk / toplam * 100)); }
 
-function oner(yolculuk){
+function yuzde(toplam, yolculuk) {
+  return Math.min(100, Math.floor((yolculuk / toplam) * 100));
+}
+
+function oner(yolculuk) {
   const sigan = kitaplar.filter(k => k.sure <= yolculuk);
-  if (sigan.length) return {liste: sigan.sort((a,b) => b.sure - a.sure), hepsi: true};
-  return {liste: [...kitaplar].sort((a,b) => a.sure - b.sure), hepsi: false};
+  if (sigan.length) {
+    return { liste: sigan.sort((a, b) => b.sure - a.sure), hepsi: true };
+  }
+  return { liste: [...kitaplar].sort((a, b) => a.sure - b.sure), hepsi: false };
 }
 
-function el(tag, attrs = {}, ...cocuklar){
+function el(tag, attrs = {}, ...cocuklar) {
   const e = document.createElement(tag);
-  for (const [k,v] of Object.entries(attrs)) {
-    if (k === "text") e.textContent = v; else e.setAttribute(k, v);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "text") e.textContent = v;
+    else e.setAttribute(k, v);
   }
   cocuklar.forEach(c => e.append(c));
   return e;
 }
 
-function ankaraKutusu(etiketMetni){
-  return el("div", {class:"durak-kutu"},
-    el("span", {class:"etiket", text:etiketMetni}),
-    el("span", {class:"ana-deger", text:"Ankara"}),
-    el("span", {class:"alt-bilgi", text:"Ankara YHT Garı"})
+function ankaraKutusu(etiketMetni, pozisyon) {
+  const hizalama = pozisyon === "sag" ? "md:pl-7" : "md:pr-7";
+  return el("div", {
+      class: `bg-[#f6f8fc] dark:bg-[#202736] border border-[#dce1ec] dark:border-[#303a4d] rounded-lg px-5 py-4 flex flex-col justify-center min-h-[92px] ${hizalama}`
+    },
+    el("span", { class: "text-xs font-semibold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-1", text: etiketMetni }),
+    el("span", { class: "text-xl sm:text-[22px] font-bold text-[#1c2330] dark:text-white leading-tight", text: "Ankara" }),
+    el("span", { class: "text-xs text-[#566072] dark:text-[#94a3b8] mt-1", text: "Ankara YHT Garı" })
   );
 }
 
-function sehirKutusu(etiketMetni){
-  const sel = el("select", {"aria-label": etiketMetni + " şehri seçin"});
-  sel.append(el("option", {value:"", text:"Şehir seçin..."}));
+function sehirKutusu(etiketMetni, pozisyon) {
+  const hizalama = pozisyon === "sag" ? "md:pl-7" : "md:pr-7";
+  const sel = el("select", {
+    "aria-label": `${etiketMetni} şehri seçin`,
+    class: "custom-select w-full bg-transparent text-xl sm:text-[22px] font-bold text-[#1c2330] dark:text-white leading-tight pr-7 cursor-pointer focus:outline-none"
+  });
+
+  sel.append(el("option", { value: "", text: "Şehir seçin...", class: "bg-white dark:bg-[#181e28] text-base font-medium" }));
   SEHIRLER.forEach(([ad, s]) => {
-    const opt = el("option", {value:ad, text: `${ad} (${saat(s)})`});
+    const opt = el("option", {
+      value: ad,
+      text: `${ad} (${saat(s)})`,
+      class: "bg-white dark:bg-[#181e28] text-base font-medium"
+    });
     if (ad === seciliSehir) opt.selected = true;
     sel.append(opt);
   });
+
   sel.addEventListener("change", e => {
     seciliSehir = e.target.value;
     gosterilen = ADIM;
@@ -248,27 +279,30 @@ function sehirKutusu(etiketMetni){
     ? `Tek yön yaklaşık ${saat(bulunan[1])}`
     : "Kütüphane Ankara Garı'ndadır";
 
-  return el("div", {class:"durak-kutu"},
-    el("span", {class:"etiket", text:etiketMetni}),
+  return el("div", {
+      class: `bg-[#f6f8fc] dark:bg-[#202736] hover:bg-white dark:hover:bg-[#252d3e] focus-within:bg-white dark:focus-within:bg-[#252d3e] border border-[#dce1ec] dark:border-[#303a4d] focus-within:border-abb dark:focus-within:border-[#6d8ee6] focus-within:ring-2 focus-within:ring-abb/15 rounded-lg px-5 py-4 flex flex-col justify-center min-h-[92px] transition-colors ${hizalama}`
+    },
+    el("span", { class: "text-xs font-semibold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-1", text: etiketMetni }),
     sel,
-    el("span", {class:"alt-bilgi", text:altYazi})
+    el("span", { class: "text-xs text-[#566072] dark:text-[#94a3b8] mt-1", text: altYazi })
   );
 }
 
-function guzergahCiz(){
+function guzergahCiz() {
   guzergahEl.replaceChildren();
-  const neredenKutu = yonTers ? sehirKutusu("Nereden") : ankaraKutusu("Nereden");
-  const nereyeKutu  = yonTers ? ankaraKutusu("Nereye")  : sehirKutusu("Nereye");
+  const neredenKutu = yonTers ? sehirKutusu("Nereden", "sol") : ankaraKutusu("Nereden", "sol");
+  const nereyeKutu  = yonTers ? ankaraKutusu("Nereye", "sag")  : sehirKutusu("Nereye", "sag");
 
+  // İki dikdörtgen kutunun tam birleşim noktasının üzerine oturan yön değiştirme butonu
   const swapBtn = el("button", {
-    class:"degistir-btn",
-    type:"button",
-    title:"Nereden ve Nereye yönünü değiştir",
-    "aria-label":"Nereden ve Nereye yönünü değiştir",
-    "data-ters": String(yonTers)
+    class: "swap-btn z-10 mx-auto -my-3.5 md:my-0 md:-mx-5 w-10 h-10 rounded-full bg-white dark:bg-[#181e28] border border-[#cfd6e4] dark:border-[#384358] text-abb dark:text-[#7c9cf2] hover:border-abb hover:bg-abb-tint dark:hover:bg-[#253047] shadow-md flex items-center justify-center cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-abb",
+    type: "button",
+    title: "Nereden ve Nereye yönünü değiştir",
+    "aria-label": "Nereden ve Nereye yönünü değiştir",
+    "data-reversed": String(yonTers)
   });
-  swapBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>`;
-  swapBtn.style.transform = window.innerWidth > 680 ? "rotate(90deg)" : "";
+  swapBtn.innerHTML = `<svg class="swap-icon w-4 h-4 rotate-90 md:rotate-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>`;
+
   swapBtn.addEventListener("click", () => {
     yonTers = !yonTers;
     guncelle();
@@ -277,26 +311,70 @@ function guzergahCiz(){
   guzergahEl.append(neredenKutu, swapBtn, nereyeKutu);
 }
 
-function kart(k, yolculuk){
+function kart(k, yolculuk) {
   const y = yuzde(k.sure, yolculuk);
   const tam = y === 100;
-  return el("article", {class:"kitap"},
-    el("h3", {text:k.ad}),
-    el("p", {class:"yazar", text:yazarDuzelt(k.yazar)}),
-    el("div", {class:"cubuk", role:"img", "aria-label": tam ? "Tamamı okunabilir" : "Yaklaşık %" + y + " okunabilir"}, el("i", {style:"width:" + y + "%"})),
-    el("p", {class:"durum", text: tam ? "Yolculukta bitirirsiniz." : "Yolculukta yaklaşık %" + y + " kadarını okuyabilirsiniz."}),
-    el("div", {class:"alt"},
-      el("span", {text:k.sayfa + " sayfa, yaklaşık " + saat(k.sure) + " okuma"}),
-      el("a", {href:k.link, target:"_blank", rel:"noopener", text:"Katalogda gör"})
+
+  return el("article", {
+      class: "bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5 sm:p-6 mb-4 shadow-[0_2px_10px_-3px_rgba(20,33,70,0.06)] hover:border-[#bcc6da] dark:hover:border-[#3e4a61] transition-colors"
+    },
+    el("div", { class: "flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3" },
+      el("div", {},
+        el("h3", { class: "text-lg sm:text-xl font-bold text-[#1c2330] dark:text-white leading-snug", text: k.ad }),
+        el("p", { class: "text-sm sm:text-base text-[#566072] dark:text-[#9ba5b8] mt-0.5", text: yazarDuzelt(k.yazar) })
+      ),
+      el("span", {
+        class: tam
+          ? "self-start shrink-0 inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60"
+          : "self-start shrink-0 inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-abb-tint dark:bg-[#222d47] text-abb dark:text-[#8ba8f8] border border-abb/15 dark:border-[#354670]",
+        text: tam ? "Yolculukta biter" : `%${y} okunabilir`
+      })
+    ),
+    el("div", {
+        class: "h-2 bg-[#e9edf7] dark:bg-[#252e40] rounded-full overflow-hidden mb-3",
+        role: "img",
+        "aria-label": tam ? "Tamamı okunabilir" : `Yaklaşık %${y} okunabilir`
+      },
+      el("div", {
+        class: `progress-fill h-full rounded-full transition-all duration-500 ${tam ? "bg-emerald-600 dark:bg-emerald-500" : "bg-abb dark:bg-[#6d8ee6]"}`,
+        style: `width: ${y}%`
+      })
+    ),
+    el("div", { class: "flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#eef1f7] dark:border-[#262f3f] text-sm text-[#566072] dark:text-[#9ba5b8]" },
+      el("span", { text: `${k.sayfa} sayfa • Yaklaşık ${saat(k.sure)} okuma` }),
+      el("a", {
+        href: k.link,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        class: "inline-flex items-center gap-1 font-semibold text-abb dark:text-[#7c9cf2] hover:underline",
+        text: "Katalogda gör →"
+      })
     )
   );
 }
 
-function goster(){
-  sonuc.replaceChildren();
+function bosDurum() {
+  const kutu = el("div", {
+    class: "bg-white dark:bg-[#181e28] border border-dashed border-[#cbd3e3] dark:border-[#323d52] rounded-xl p-8 sm:p-10 text-center"
+  });
+
+  const ikon = document.createElement("div");
+  ikon.className = "w-12 h-12 mx-auto mb-3 rounded-full bg-abb-tint dark:bg-[#222d47] text-abb dark:text-[#7c9cf2] flex items-center justify-center";
+  ikon.innerHTML = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><path d="M8 15h.01"/><path d="M16 15h.01"/></svg>`;
+
+  kutu.append(
+    ikon,
+    el("h2", { class: "text-base sm:text-lg font-semibold text-[#1c2330] dark:text-white mb-1", text: "Henüz bir varış şehri seçilmedi" }),
+    el("p", { class: "text-sm text-[#566072] dark:text-[#9ba5b8] max-w-md mx-auto", text: "Yukarıdaki listeden gideceğiniz şehri seçtiğinizde, yolculuk sürenize en uygun kitaplar burada listelenecektir." })
+  );
+  return kutu;
+}
+
+function goster() {
+  sonucEl.replaceChildren();
   const bulunan = SEHIRLER.find(x => x[0] === seciliSehir);
   if (!bulunan) {
-    sonuc.append(el("div", {class:"bos", text:"Önerileri görmek için yukarıdan bir şehir seçin."}));
+    sonucEl.append(bosDurum());
     return;
   }
 
@@ -304,23 +382,42 @@ function goster(){
   const toplamSure = gidisDonus ? tekYonSure * 2 : tekYonSure;
   const kalkis = yonTers ? ad : "Ankara";
   const varis  = yonTers ? "Ankara" : ad;
-  const tipMetni = gidisDonus ? "gidiş-dönüş" : "tek yön";
+  const tipMetni = gidisDonus ? "Gidiş-Dönüş" : "Tek Yön";
 
-  const {liste, hepsi} = oner(toplamSure);
-  sonuc.append(el("h2", {text: `${kalkis} – ${varis} (${tipMetni}) yaklaşık ${saat(toplamSure)} sürer`}));
-  sonuc.append(el("p", {class:"not", text: hepsi
-    ? "Yolculuğunuzda bitirebileceğiniz kitaplar, süreyi en iyi dolduranlardan başlayarak sıralandı."
-    : "Bu yolculukta bitecek kadar kısa bir kitap yok. Şu kitaplara başlayabilirsiniz:"}));
+  const { liste, hepsi } = oner(toplamSure);
 
-  liste.slice(0, gosterilen).forEach(k => sonuc.append(kart(k, toplamSure)));
+  const baslikAlani = el("div", { class: "mb-5" },
+    el("h2", {
+      class: "text-xl sm:text-2xl font-bold text-[#1c2330] dark:text-white",
+      text: `${kalkis} – ${varis} • ${tipMetni} (${saat(toplamSure)})`
+    }),
+    el("p", {
+      class: "text-sm sm:text-base text-[#566072] dark:text-[#9ba5b8] mt-1",
+      text: hepsi
+        ? "Yolculuğunuzda tamamen bitirebileceğiniz kitaplar, süreyi en iyi dolduranlardan başlayarak sıralandı."
+        : "Bu yolculukta tamamen bitecek kadar kısa bir kitap yok; ancak şu kitaplara başlayabilirsiniz:"
+    })
+  );
+
+  sonucEl.append(baslikAlani);
+
+  liste.slice(0, gosterilen).forEach(k => sonucEl.append(kart(k, toplamSure)));
+
   if (liste.length > gosterilen) {
-    const d = el("button", {class:"daha", type:"button", text:"Daha fazla göster (" + (liste.length - gosterilen) + " kitap daha)"});
-    d.addEventListener("click", () => { gosterilen += ADIM; goster(); });
-    sonuc.append(d);
+    const d = el("button", {
+      class: "mt-2 w-full sm:w-auto font-semibold text-sm px-6 py-3 rounded-lg border-[1.5px] border-abb dark:border-[#6d8ee6] text-abb dark:text-[#7c9cf2] hover:bg-abb-tint dark:hover:bg-[#222d47] transition-colors cursor-pointer",
+      type: "button",
+      text: `Daha fazla kitap göster (${liste.length - gosterilen} kitap daha)`
+    });
+    d.addEventListener("click", () => {
+      gosterilen += ADIM;
+      goster();
+    });
+    sonucEl.append(d);
   }
 }
 
-function guncelle(){
+function guncelle() {
   guzergahCiz();
   goster();
 }
@@ -333,14 +430,19 @@ document.querySelectorAll('input[name="yolculukTipi"]').forEach(r => {
   });
 });
 
-guzergahCiz();
+// İlk çizim
+guncelle();
 
+// Sunucu ortamında güncel kitaplar.json varsa onunla güncelle
 fetch("kitaplar.json")
   .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(v => { kitaplar = v; if (seciliSehir) goster(); })
-  .catch(() => {
-    sonuc.replaceChildren(el("div", {class:"bos", text:"Kitap verisi yüklenemedi. Sayfayı yenileyin; sorun sürerse kitaplar.json dosyasının sitede olduğundan emin olun."}));
-  });
+  .then(v => {
+    if (Array.isArray(v) && v.length) {
+      kitaplar = v;
+      if (seciliSehir) goster();
+    }
+  })
+  .catch(() => { /* Yerleşik YEDEK_KITAPLAR kullanılmaya devam eder */ });
 </script>
 </body>
 </html>
