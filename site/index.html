@@ -612,7 +612,7 @@ function durumRozetleriniGuncelle() {
   if (rozet) {
     rozet.innerHTML = ozelVeriAktif
       ? `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Özel katalog aktif (${kitaplar.length} kitap • 40 sayfa/saat)`
-      : `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Saatte ~40 sayfa okuma hızı baz alınır (${kitaplar.length} kitap)`;
+      : `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> (${kitaplar.length} kitap)`;
   }
 
   const adminCount = document.getElementById("admin-book-count");
