@@ -189,7 +189,7 @@
             <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Veri Toplama</h4>
             <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">scraper.py</p>
             <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
-              ABB Koha kütüphane kataloğundaki YHT Gar Kütüphanesi şubesini tarar; kitap adı, yazar, dil, sayfa sayısı ve katalog bağlantısını çeker. Sayfa sayısını sabit <strong>saatte 40 sayfa</strong> hızına bölerek okunma süresini hesaplar.
+              ABB Koha kütüphane kataloğundaki YHT Gar Kütüphanesi şubesini tarar; kitap adı, yazar, dil, sayfa sayısı, kitap özeti, kitap görseli ve katalog bağlantısını çeker. Sayfa sayısını sabit <strong>saatte 40 sayfa</strong> hızına bölerek okunma süresini hesaplar.
             </p>
           </div>
 
@@ -198,7 +198,7 @@
             <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Web Verisi Üretimi</h4>
             <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">build_json.py &amp; Admin</p>
             <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
-              Toplanan CSV veri setini web arayüzünün okuyabileceği <code class="text-xs bg-[#f0f3f9] dark:bg-[#222a38] px-1.5 py-0.5 rounded">kitaplar.json</code> formatına dönüştürür. Dilerseniz <strong>Admin</strong> panelinden doğrudan CSV/JSON yükleyerek veriyi güncelleyebilirsiniz.
+              Toplanan CSV veri setini web arayüzünün okuyabileceği <code class="text-xs bg-[#f0f3f9] dark:bg-[#222a38] px-1.5 py-0.5 rounded">kitaplar.json</code> formatına dönüştürür.
             </p>
           </div>
 
@@ -207,7 +207,7 @@
             <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Akıllı Öneri Motoru</h4>
             <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">recommender.py &amp; Web</p>
             <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
-              Seçilen rotanın tek yön veya gidiş-dönüş süresine sığan kitapları süreyi en iyi doldurandan (en uzundan) başlayarak sıralar. Hiçbir kitap sığmazsa en kısa kitapları ve yolculukta yüzde kaçının okunabileceğini gösterir.
+              Seçilen rotanın tek yön veya gidiş-dönüş süresine sığan kitapları, süreyi en iyi doldurandan (en uzundan) başlayarak sıralar. Hiçbir kitap sığmazsa en kısa kitapları ve yolculukta yüzde kaçının okunabileceğini gösterir.
             </p>
           </div>
         </div>
@@ -248,6 +248,8 @@
               <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Sayfa Sayısı</span>
               <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Tahmini Okunma Süresi (Saat)</span>
               <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Link</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Kitap Görseli</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Kitap Özeti</span>
             </div>
 
             <h4 class="text-sm font-bold text-[#1c2330] dark:text-white mb-2">Bilinen Sınırlamalar</h4>
