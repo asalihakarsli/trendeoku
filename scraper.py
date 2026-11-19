@@ -5,7 +5,6 @@ import time
 import re
 from pathlib import Path
 
-# Ayarlar
 BASE_URL = "https://katalog.ankara.bel.tr"
 SEARCH_URL = "https://katalog.ankara.bel.tr/cgi-bin/koha/opac-search.pl?idx=&q=&limit=branch%3AYHT"
 HEADERS = {
@@ -25,14 +24,14 @@ def detay_sayfasini_tara(url):
         req.raise_for_status()
         detay_soup = BeautifulSoup(req.content, "html.parser")
         
-        # 1. Yazar Çekme
+        # 1. Yazar 
         yazar_etiketi = detay_soup.find("h5", class_="author")
         if not yazar_etiketi:
             yazar_etiketi = detay_soup.select_one('.results_summary.author a')
         if yazar_etiketi:
             bilgiler["Yazar"] = yazar_etiketi.text.strip()
             
-        # 2. Dil Çekme
+        # 2. Dil 
         dil_etiketi = detay_soup.find("span", class_="results_summary language")
         if dil_etiketi:
             # Get the text inside the span with class "language"
@@ -40,7 +39,7 @@ def detay_sayfasini_tara(url):
             if dil_degeri_etiketi:
                 bilgiler["Dil"] = dil_degeri_etiketi.text.strip()
                  
-        # 3. Sayfa Sayısı Çekme
+        # 3. Sayfa Sayısı 
         tanim_etiketi = detay_soup.find("span", property="description")
         if tanim_etiketi:
             tanim_metni = tanim_etiketi.text.strip() 
@@ -83,7 +82,6 @@ def veri_seti_olustur(hedef_kitap_sayisi=50):
                 
             gorulen_linkler.add(detay_url)
             
-            # Kitap adı temizleme
             tam_baslik = link_etiketi.text.strip()
             kitap_adi = tam_baslik.split(' / ')[0].strip() if ' / ' in tam_baslik else tam_baslik
 
@@ -116,7 +114,6 @@ def veri_seti_olustur(hedef_kitap_sayisi=50):
         print("Hiç kitap verisi toplanamadı, dosya yazılmadı.")
         return df
 
-    # Eksik sayfa sayısı olan satırlar yüzünden sütun ondalıklı (432.0) yazılmasın
     df["Sayfa Sayısı"] = df["Sayfa Sayısı"].astype("Int64")
 
     VERI_KLASORU.mkdir(parents=True, exist_ok=True)
