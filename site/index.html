@@ -53,99 +53,417 @@
   }
 </style>
 </head>
-<body class="bg-[#f4f6fa] dark:bg-[#0f131a] text-[#1c2330] dark:text-[#e8ecf3] font-sans antialiased selection:bg-abb selection:text-white">
+<body class="bg-[#f4f6fa] dark:bg-[#0f131a] text-[#1c2330] dark:text-[#e8ecf3] font-sans antialiased selection:bg-abb selection:text-white min-h-screen flex flex-col">
 
-  <!-- Üst Kahraman (Hero) Alanı: Arama panelini içine alacak şekilde dengeli alt boşluk -->
-  <header class="bg-gradient-to-br from-[#1f3675] via-[#274189] to-[#2e4c9e] dark:from-[#15224a] dark:via-[#1b2d61] dark:to-[#223775] text-white pt-10 pb-24 sm:pt-12 sm:pb-28 px-4 sm:px-6">
+  <!-- Üst Kahraman (Hero) Alanı ve Üst Navigasyon Çubuğu -->
+  <header class="bg-gradient-to-br from-[#1f3675] via-[#274189] to-[#2e4c9e] dark:from-[#15224a] dark:via-[#1b2d61] dark:to-[#223775] text-white pt-5 pb-24 sm:pt-6 sm:pb-28 px-4 sm:px-6">
     <div class="max-w-[840px] mx-auto">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs sm:text-sm font-medium text-blue-100 mb-4">
-        <svg class="w-4 h-4 text-blue-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-        </svg>
-        <span>Ankara YHT Gar Kütüphanesi Kataloğu</span>
+
+      <!-- Üst Çubuk: Solda Birleşik Button Group, Sağ Üst Köşede Tekil Admin Butonu -->
+      <nav aria-label="Üst menü" class="flex items-center justify-between gap-4 pb-6 mb-6 border-b border-white/15">
+        <!-- Birleşik Button Group: Ana Sayfa & Beni Oku -->
+        <div class="inline-flex rounded-lg bg-white/10 p-1 border border-white/15 backdrop-blur-xs" role="group" aria-label="Sayfa seçimi">
+          <button type="button" id="nav-home" data-view="home"
+            class="nav-btn px-4 py-1.5 rounded-md text-sm font-semibold transition-all cursor-pointer bg-white text-abb shadow-xs">
+            Ana Sayfa
+          </button>
+          <button type="button" id="nav-readme" data-view="readme"
+            class="nav-btn px-4 py-1.5 rounded-md text-sm font-semibold transition-all cursor-pointer text-blue-100 hover:text-white hover:bg-white/10">
+            Beni Oku
+          </button>
+        </div>
+
+        <!-- Sağ Üst Köşede Tek Başına Duran Admin Butonu -->
+        <button type="button" id="nav-admin" data-view="admin"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/25 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+          <svg class="w-4 h-4 text-blue-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          <span>Admin</span>
+        </button>
+      </nav>
+
+      <!-- Hero Başlık ve Açıklama (Aktif sekmeye göre güncellenir) -->
+      <div id="hero-content">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs sm:text-sm font-medium text-blue-100 mb-4">
+          <svg class="w-4 h-4 text-blue-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+          </svg>
+          <span id="hero-badge">Ankara YHT Gar Kütüphanesi Kataloğu</span>
+        </div>
+        <h1 id="hero-title" class="text-3xl sm:text-4xl md:text-[42px] font-bold tracking-tight leading-[1.15] mb-3">
+          Trende ne okusam?
+        </h1>
+        <p id="hero-subtitle" class="text-base sm:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
+          Güzergahınızı ve yolculuk tipinizi seçin; tren yolculuğunuzun süresine tam sığan kitapları kataloğumuzdan önerelim.
+        </p>
       </div>
-      <h1 class="text-3xl sm:text-4xl md:text-[42px] font-bold tracking-tight leading-[1.15] mb-3">
-        Trende ne okusam?
-      </h1>
-      <p class="text-base sm:text-lg text-blue-100/90 max-w-2xl leading-relaxed">
-        Güzergahınızı ve yolculuk tipinizi seçin; tren yolculuğunuzun süresine tam sığan kitapları kataloğumuzdan önerelim.
-      </p>
     </div>
   </header>
 
   <!-- Ana İçerik Konteyneri: Tek bir dikey ızgara çizgisi (840px) -->
-  <main class="max-w-[840px] mx-auto px-4 sm:px-6 pb-16">
+  <main class="max-w-[840px] w-full mx-auto px-4 sm:px-6 pb-16 flex-1">
 
-    <!-- Üst Alana Bindirilmiş (Overlapping) Bilet/Rota Arama Kartı -->
-    <section aria-label="Yolculuk planı" class="-mt-16 sm:-mt-20 bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-5 sm:p-7 mb-10">
+    <!-- ==================== 1. GÖRÜNÜM: ANA SAYFA (ÖNERİ EKRANI) ==================== -->
+    <div id="view-home" class="view-section">
+      <!-- Üst Alana Bindirilmiş (Overlapping) Bilet/Rota Arama Kartı -->
+      <section aria-label="Yolculuk planı" class="-mt-16 sm:-mt-20 bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-5 sm:p-7 mb-10">
 
-      <!-- Üst Satır: Tek Yön / Gidiş-Dönüş Segmented Seçici + Bilgi Rozeti -->
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <div class="inline-flex p-1 rounded-lg bg-[#f0f3f9] dark:bg-[#222a38] border border-[#e2e7f0] dark:border-[#303a4d]" role="radiogroup" aria-label="Yolculuk tipi">
-          <label class="cursor-pointer">
-            <input type="radio" name="yolculukTipi" value="tek" class="sr-only peer" checked>
-            <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
-              Tek Yön
-            </span>
-          </label>
-          <label class="cursor-pointer">
-            <input type="radio" name="yolculukTipi" value="gidisDonus" class="sr-only peer">
-            <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
-              Gidiş-Dönüş
-            </span>
-          </label>
+        <!-- Üst Satır: Tek Yön / Gidiş-Dönüş Segmented Seçici + Bilgi Rozeti -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div class="inline-flex p-1 rounded-lg bg-[#f0f3f9] dark:bg-[#222a38] border border-[#e2e7f0] dark:border-[#303a4d]" role="radiogroup" aria-label="Yolculuk tipi">
+            <label class="cursor-pointer">
+              <input type="radio" name="yolculukTipi" value="tek" class="sr-only peer" checked>
+              <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
+                Tek Yön
+              </span>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="yolculukTipi" value="gidisDonus" class="sr-only peer">
+              <span class="block px-4 py-1.5 rounded-md text-sm font-semibold text-[#566072] dark:text-[#9ba5b8] peer-checked:bg-white dark:peer-checked:bg-[#181e28] peer-checked:text-abb dark:peer-checked:text-[#7c9cf2] peer-checked:shadow-sm transition-all">
+                Gidiş-Dönüş
+              </span>
+            </label>
+          </div>
+
+          <span id="veri-kaynak-rozet" class="text-xs font-medium text-[#566072] dark:text-[#94a3b8] flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Saatte ~40 sayfa okuma hızı baz alınır
+          </span>
         </div>
 
-        <span class="text-xs font-medium text-[#566072] dark:text-[#94a3b8] flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-          Saatte ~40 sayfa okuma hızı baz alınır
-        </span>
-      </div>
+        <!-- Orta Satır: Bitişik Nereden - [⇄] - Nereye Dikdörtgen Kutuları -->
+        <div id="guzergah" class="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-2 md:gap-0">
+          <!-- JS tarafından doldurulur -->
+        </div>
+      </section>
 
-      <!-- Orta Satır: Bitişik Nereden - [⇄] - Nereye Dikdörtgen Kutuları -->
-      <div id="guzergah" class="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-2 md:gap-0">
+      <!-- Sonuçlar veya Karşılama Alanı -->
+      <section id="sonuc" aria-live="polite">
         <!-- JS tarafından doldurulur -->
-      </div>
-    </section>
+      </section>
 
-    <!-- Sonuçlar veya Karşılama Alanı -->
-    <section id="sonuc" aria-live="polite">
-      <!-- JS tarafından doldurulur -->
-    </section>
+      <!-- Notlar ve Sınırlamalar (Kademeli Gösterim) -->
+      <details class="mt-12 pt-6 border-t border-[#dce1ec] dark:border-[#2c3545] text-sm text-[#566072] dark:text-[#9ba5b8] group">
+        <summary class="cursor-pointer font-semibold text-[#1c2330] dark:text-[#e8ecf3] flex items-center justify-between select-none list-none">
+          <span>Notlar ve sınırlamalar</span>
+          <svg class="w-4 h-4 text-[#566072] transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="mt-3 space-y-2 leading-relaxed max-w-3xl">
+          <p>• Okunma süresi, sayfa sayısının saatte 40 sayfa ortalama okuma hızına bölünmesiyle tahmin edilir. Kişisel okuma hızınıza göre farklılık gösterebilir.</p>
+          <p>• Yolculuk süreleri yaklaşık değerlerdir; bilet almadan önce TCDD Taşımacılık resmi tarifesini kontrol ediniz. Kayseri ve sonrasındaki hatlar YHT değil, konvansiyonel ana hat trenleridir.</p>
+          <p>• Varsayılan veri seti, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan 50 kitaplık örnek koleksiyondan oluşmaktadır.</p>
+        </div>
+      </details>
+    </div>
 
-    <!-- Notlar ve Sınırlamalar (Kademeli Gösterim) -->
-    <details class="mt-12 pt-6 border-t border-[#dce1ec] dark:border-[#2c3545] text-sm text-[#566072] dark:text-[#9ba5b8] group">
-      <summary class="cursor-pointer font-semibold text-[#1c2330] dark:text-[#e8ecf3] flex items-center justify-between select-none list-none">
-        <span>Notlar ve sınırlamalar</span>
-        <svg class="w-4 h-4 text-[#566072] transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
-      </summary>
-      <div class="mt-3 space-y-2 leading-relaxed max-w-3xl">
-        <p>• Okunma süresi, sayfa sayısının saatte 40 sayfa ortalama okuma hızına bölünmesiyle tahmin edilir. Kişisel okuma hızınıza göre farklılık gösterebilir.</p>
-        <p>• Yolculuk süreleri yaklaşık değerlerdir; bilet almadan önce TCDD Taşımacılık resmi tarifesini kontrol ediniz. Kayseri ve sonrasındaki hatlar YHT değil, konvansiyonel ana hat trenleridir.</p>
-        <p>• Veri seti, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan 50 kitaplık örnek koleksiyondan oluşmaktadır.</p>
+    <!-- ==================== 2. GÖRÜNÜM: BENİ OKU (DOKÜMANTASYON) ==================== -->
+    <div id="view-readme" class="view-section hidden">
+      <!-- Üst Alana Bindirilmiş Özet Kartı -->
+      <section class="-mt-16 sm:-mt-20 bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-6 sm:p-8 mb-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-abb-tint dark:bg-[#222d47] text-abb dark:text-[#8ba8f8]">
+            Proje Tanıtımı &amp; Dokümantasyon
+          </span>
+          <span class="text-xs font-mono text-[#566072] dark:text-[#94a3b8]">Python • BeautifulSoup • Pandas • Web UI</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-[#1c2330] dark:text-white mb-3">
+          Ankara Train Book Recommender Nedir?
+        </h2>
+        <p class="text-[#374151] dark:text-[#cbd5e1] leading-relaxed mb-4">
+          <strong>Trende ne okusam?</strong>, Ankara Büyükşehir Belediyesi'nin <strong>YHT Gar Kütüphanesi</strong> kataloğundan gerçek kitap bilgilerini toplayan ve Ankara'dan seçtiğiniz şehre yapacağınız tren yolculuğunun süresine göre trende bitirebileceğiniz kitapları öneren açık kaynaklı bir veri ve öneri uygulamasıdır.
+        </p>
+        <p class="text-[#566072] dark:text-[#9ba5b8] text-sm leading-relaxed">
+          Yolculuğa çıkmadan önce Ankara YHT Garı'ndaki kütüphaneden ödünç alabileceğiniz kitapları, sayfa sayılarına ve tahmini okuma sürelerine göre eşleştirerek "yolculuk bitmeden kitabı bitirme" deneyimi sunmayı amaçlar.
+        </p>
+      </section>
+
+      <!-- Nasıl Çalışır? 3 Adımlı Mimari Kartlar -->
+      <section class="mb-8">
+        <h3 class="text-lg font-bold text-[#1c2330] dark:text-white mb-4">Sistem Nasıl Çalışır?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5">
+            <div class="w-8 h-8 rounded-lg bg-abb text-white font-bold text-sm flex items-center justify-center mb-3">1</div>
+            <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Veri Toplama</h4>
+            <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">scraper.py</p>
+            <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
+              ABB Koha kütüphane kataloğundaki YHT Gar Kütüphanesi şubesini tarar; kitap adı, yazar, dil, sayfa sayısı ve katalog bağlantısını çeker. Sayfa sayısını sabit <strong>saatte 40 sayfa</strong> hızına bölerek okunma süresini hesaplar.
+            </p>
+          </div>
+
+          <div class="bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5">
+            <div class="w-8 h-8 rounded-lg bg-abb text-white font-bold text-sm flex items-center justify-center mb-3">2</div>
+            <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Web Verisi Üretimi</h4>
+            <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">build_json.py &amp; Admin</p>
+            <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
+              Toplanan CSV veri setini web arayüzünün okuyabileceği <code class="text-xs bg-[#f0f3f9] dark:bg-[#222a38] px-1.5 py-0.5 rounded">kitaplar.json</code> formatına dönüştürür. Dilerseniz <strong>Admin</strong> panelinden doğrudan CSV/JSON yükleyerek veriyi güncelleyebilirsiniz.
+            </p>
+          </div>
+
+          <div class="bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5">
+            <div class="w-8 h-8 rounded-lg bg-abb text-white font-bold text-sm flex items-center justify-center mb-3">3</div>
+            <h4 class="font-bold text-[#1c2330] dark:text-white mb-1.5">Akıllı Öneri Motoru</h4>
+            <p class="text-xs font-mono text-abb dark:text-[#7c9cf2] mb-2">recommender.py &amp; Web</p>
+            <p class="text-sm text-[#566072] dark:text-[#9ba5b8] leading-relaxed">
+              Seçilen rotanın tek yön veya gidiş-dönüş süresine sığan kitapları süreyi en iyi doldurandan (en uzundan) başlayarak sıralar. Hiçbir kitap sığmazsa en kısa kitapları ve yolculukta yüzde kaçının okunabileceğini gösterir.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Desteklenen Rotalar ve Veri Sütunları -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Yaklaşık Yolculuk Süreleri Tablosu -->
+        <section class="bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5 sm:p-6">
+          <h3 class="text-base font-bold text-[#1c2330] dark:text-white mb-1">Ankara Çıkışlı Yolculuk Süreleri</h3>
+          <p class="text-xs text-[#566072] dark:text-[#9ba5b8] mb-4">Tek yön yaklaşık süreler (Gidiş-Dönüş seçiminde 2 ile çarpılır)</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead>
+                <tr class="border-b border-[#e2e7f0] dark:border-[#2c3545] text-xs uppercase text-[#566072] dark:text-[#94a3b8]">
+                  <th class="py-2 font-semibold">Varış Şehri</th>
+                  <th class="py-2 font-semibold">Hat Türü</th>
+                  <th class="py-2 font-semibold text-right">Süre</th>
+                </tr>
+              </thead>
+              <tbody id="readme-routes-table" class="divide-y divide-[#eef1f7] dark:divide-[#262f3f]">
+                <!-- JS ile doldurulur -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Veri Seti Yapısı & Sınırlamalar -->
+        <section class="bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#2c3545] rounded-xl p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <h3 class="text-base font-bold text-[#1c2330] dark:text-white mb-1">Veri Seti Şeması &amp; Sınırlamalar</h3>
+            <p class="text-xs text-[#566072] dark:text-[#9ba5b8] mb-4">CSV ve JSON veri yapısında kullanılan standart alanlar</p>
+
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Kitap Adı</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Yazar</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Kitap Dili</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Sayfa Sayısı</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Tahmini Okunma Süresi (Saat)</span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-[#e8ecf3]">Link</span>
+            </div>
+
+            <h4 class="text-sm font-bold text-[#1c2330] dark:text-white mb-2">Bilinen Sınırlamalar</h4>
+            <ul class="space-y-2 text-sm text-[#566072] dark:text-[#9ba5b8]">
+              <li>• <strong>Sabit Okuma Hızı:</strong> Saatte 40 sayfa ortalama bir değerdir; okuma hızı kişiye ve kitabın yoğunluğuna göre değişir.</li>
+              <li>• <strong>Hat Farklılıkları:</strong> Kayseri, Adana, İzmir, Erzurum, Diyarbakır ve Kars hatları YHT değil, konvansiyonel ekspres trenlerdir.</li>
+              <li>• <strong>Katalog Kapsamı:</strong> Varsayılan liste 50 kitaplık örnektir; Admin panelinden tam katalog yüklenebilir.</li>
+            </ul>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-[#eef1f7] dark:border-[#262f3f]">
+            <button type="button" onclick="switchView('home')"
+              class="w-full py-2.5 px-4 rounded-lg bg-abb hover:bg-abb-light text-white font-semibold text-sm transition-colors cursor-pointer">
+              Kitap Önerilerini Keşfet →
+            </button>
+          </div>
+        </section>
       </div>
-    </details>
+    </div>
+
+    <!-- ==================== 3. GÖRÜNÜM: ADMIN PANELİ ==================== -->
+    <div id="view-admin" class="view-section hidden">
+
+      <!-- 3A. ADMIN GİRİŞ EKRANI -->
+      <section id="admin-login-box" class="-mt-16 sm:-mt-20 max-w-md mx-auto bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-6 sm:p-8">
+        <div class="w-12 h-12 rounded-xl bg-abb-tint dark:bg-[#222d47] text-abb dark:text-[#7c9cf2] flex items-center justify-center mb-4">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h2 class="text-xl font-bold text-[#1c2330] dark:text-white mb-1">Yönetici Girişi</h2>
+        <p class="text-sm text-[#566072] dark:text-[#9ba5b8] mb-6">
+          Katalog verilerini güncellemek ve yeni kitap eklemek için giriş yapın.
+        </p>
+
+        <form id="admin-login-form" class="space-y-4">
+          <div>
+            <label for="admin-user" class="block text-xs font-semibold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-1.5">
+              Kullanıcı Adı
+            </label>
+            <input type="text" id="admin-user" autocomplete="username" required placeholder="Kullanıcı adınızı girin"
+              class="w-full px-3.5 py-2.5 rounded-lg bg-[#f6f8fc] dark:bg-[#202736] border border-[#dce1ec] dark:border-[#303a4d] text-[#1c2330] dark:text-white text-sm focus:outline-none focus:border-abb focus:ring-2 focus:ring-abb/15">
+          </div>
+
+          <div>
+            <label for="admin-pass" class="block text-xs font-semibold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-1.5">
+              Şifre
+            </label>
+            <input type="password" id="admin-pass" autocomplete="current-password" required placeholder="••••••••••••"
+              class="w-full px-3.5 py-2.5 rounded-lg bg-[#f6f8fc] dark:bg-[#202736] border border-[#dce1ec] dark:border-[#303a4d] text-[#1c2330] dark:text-white text-sm focus:outline-none focus:border-abb focus:ring-2 focus:ring-abb/15">
+          </div>
+
+          <div id="admin-login-error" class="hidden p-3 rounded-lg bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/60 text-xs font-medium text-red-700 dark:text-red-300">
+            Kullanıcı adı veya şifre hatalı. Lütfen tekrar deneyin.
+          </div>
+
+          <button type="submit"
+            class="w-full py-2.5 px-4 rounded-lg bg-abb hover:bg-abb-light text-white font-semibold text-sm transition-colors cursor-pointer shadow-xs">
+            Giriş Yap
+          </button>
+        </form>
+      </section>
+
+      <!-- 3B. ADMIN YÖNETİM PANELİ (Oturum Açıldıktan Sonra Görünür) -->
+      <div id="admin-dashboard" class="hidden space-y-6">
+        <!-- Üst Özet & İşlem Çubuğu -->
+        <section class="-mt-16 sm:-mt-20 bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] shadow-[0_12px_32px_-8px_rgba(20,33,70,0.14)] dark:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.5)] p-5 sm:p-7">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-5 mb-5 border-b border-[#eef1f7] dark:border-[#262f3f]">
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-xl font-bold text-[#1c2330] dark:text-white">Katalog Veri Yönetimi</h2>
+                <span id="admin-source-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  Varsayılan Katalog
+                </span>
+              </div>
+              <p class="text-sm text-[#566072] dark:text-[#9ba5b8] mt-1">
+                Aktif katalogda toplam <strong id="admin-book-count" class="text-[#1c2330] dark:text-white">50</strong> kitap bulunuyor. Değişiklikler anında Ana Sayfa önerilerine yansır.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" id="btn-export-json"
+                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-abb hover:bg-abb-light text-white transition-colors cursor-pointer">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>kitaplar.json İndir</span>
+              </button>
+              <button type="button" id="btn-reset-data"
+                class="px-3.5 py-2 rounded-lg text-xs font-semibold border border-[#dce1ec] dark:border-[#343e52] text-[#566072] dark:text-[#9ba5b8] hover:text-red-600 hover:border-red-300 dark:hover:text-red-400 transition-colors cursor-pointer">
+                Varsayılana Sıfırla
+              </button>
+              <button type="button" id="btn-admin-logout"
+                class="px-3.5 py-2 rounded-lg text-xs font-semibold bg-[#f0f3f9] dark:bg-[#222a38] text-[#1c2330] dark:text-white hover:bg-[#e2e7f0] dark:hover:bg-[#2c3648] transition-colors cursor-pointer">
+                Çıkış Yap
+              </button>
+            </div>
+          </div>
+
+          <!-- Bildirim Mesajı Alanı -->
+          <div id="admin-toast" class="hidden mb-5 p-3.5 rounded-lg text-sm font-medium border"></div>
+
+          <!-- İki Sütunlu Veri Girişi: Sol = CSV/JSON Dosya Yükleme, Sağ = Tekil Kitap Ekleme -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 1. Toplu Dosya Yükleme (CSV / JSON) -->
+            <div class="flex flex-col">
+              <h3 class="text-sm font-bold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-3">
+                1. Dosyadan Veri Yükle (CSV / JSON)
+              </h3>
+              <label id="drop-zone" for="file-upload"
+                class="flex-1 flex flex-col items-center justify-center text-center p-6 rounded-xl border-2 border-dashed border-[#cbd3e3] dark:border-[#343f54] bg-[#f8fafe] dark:bg-[#1e2533] hover:border-abb dark:hover:border-[#6d8ee6] hover:bg-abb-tint/40 dark:hover:bg-[#232c3d] transition-colors cursor-pointer">
+                <div class="w-11 h-11 rounded-full bg-abb-tint dark:bg-[#26324d] text-abb dark:text-[#7c9cf2] flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+                <span class="text-sm font-semibold text-[#1c2330] dark:text-white mb-1">
+                  CSV veya JSON dosyasını seçin ya da sürükleyin
+                </span>
+                <span class="text-xs text-[#566072] dark:text-[#9ba5b8] max-w-xs">
+                  <code class="font-mono">scraper.py</code> çıktısı (<code class="font-mono">gar_kutuphanesi_veriseti.csv</code>) veya <code class="font-mono">kitaplar.json</code> desteklenir.
+                </span>
+                <input id="file-upload" type="file" accept=".csv,.json,text/csv,application/json" class="sr-only">
+              </label>
+            </div>
+
+            <!-- 2. Manuel Tekil Kitap Ekleme -->
+            <div>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-[#566072] dark:text-[#94a3b8] mb-3">
+                2. Yeni Kitap Ekle
+              </h3>
+              <form id="add-book-form" class="space-y-3 bg-[#f8fafe] dark:bg-[#1e2533] p-4 rounded-xl border border-[#e2e7f0] dark:border-[#2e384b]">
+                <div>
+                  <input type="text" id="book-title" required placeholder="Kitap Adı (örn: Kürk Mantolu Madonna)"
+                    class="w-full px-3 py-2 rounded-lg bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                  <input type="text" id="book-author" required placeholder="Yazar (örn: Sabahattin Ali)"
+                    class="w-full px-3 py-2 rounded-lg bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+                  <div class="relative">
+                    <input type="number" id="book-pages" min="1" max="5000" required placeholder="Sayfa Sayısı"
+                      class="w-full px-3 py-2 rounded-lg bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+                    <span id="book-duration-preview" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-abb dark:text-[#7c9cf2]">
+                      0 sa
+                    </span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                  <select id="book-lang" aria-label="Kitap dili"
+                    class="px-3 py-2 rounded-lg bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+                    <option value="TR">Türkçe (TR)</option>
+                    <option value="EN">İngilizce (EN)</option>
+                    <option value="DE">Almanca (DE)</option>
+                    <option value="FR">Fransızca (FR)</option>
+                  </select>
+                  <input type="url" id="book-link" placeholder="Katalog Linki (isteğe bağlı)"
+                    class="col-span-2 px-3 py-2 rounded-lg bg-white dark:bg-[#181e28] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+                </div>
+                <button type="submit"
+                  class="w-full py-2 px-4 rounded-lg bg-abb hover:bg-abb-light text-white font-semibold text-sm transition-colors cursor-pointer">
+                  + Kataloğa Ekle
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mevcut Katalog Tablosu -->
+        <section class="bg-white dark:bg-[#181e28] rounded-xl border border-[#dce1ec] dark:border-[#2c3545] p-5 sm:p-6">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <h3 class="text-base font-bold text-[#1c2330] dark:text-white">Kayıtlı Kitaplar</h3>
+            <input type="search" id="admin-search" placeholder="Kitap veya yazar ara..."
+              class="w-full sm:w-64 px-3 py-1.5 rounded-lg bg-[#f6f8fc] dark:bg-[#202736] border border-[#dce1ec] dark:border-[#303a4d] text-sm text-[#1c2330] dark:text-white focus:outline-none focus:border-abb">
+          </div>
+
+          <div class="overflow-x-auto max-h-[380px] overflow-y-auto border border-[#eef1f7] dark:border-[#262f3f] rounded-lg">
+            <table class="w-full text-sm text-left">
+              <thead class="bg-[#f6f8fc] dark:bg-[#202736] sticky top-0 text-xs uppercase text-[#566072] dark:text-[#94a3b8] border-b border-[#dce1ec] dark:border-[#303a4d]">
+                <tr>
+                  <th class="py-2.5 px-3 font-semibold">Kitap Adı</th>
+                  <th class="py-2.5 px-3 font-semibold">Yazar</th>
+                  <th class="py-2.5 px-3 font-semibold text-right">Sayfa</th>
+                  <th class="py-2.5 px-3 font-semibold text-right">Süre</th>
+                  <th class="py-2.5 px-3 font-semibold text-right">İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="admin-books-tbody" class="divide-y divide-[#eef1f7] dark:divide-[#262f3f]">
+                <!-- JS tarafından doldurulur -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+
   </main>
 
 <script>
 // Ankara'dan yaklaşık tren yolculuğu süreleri (saat)
 const SEHIRLER = [
-  ["Eskişehir", 1.5],
-  ["Konya", 1.8],
-  ["Sivas", 2.0],
-  ["Karaman", 2.7],
-  ["İstanbul", 5.0],
-  ["Kayseri", 7.0],
-  ["Adana", 11.0],
-  ["İzmir", 14.0],
-  ["Erzurum", 22.0],
-  ["Diyarbakır", 23.0],
-  ["Kars", 26.0]
+  ["Eskişehir", 1.5, "YHT"],
+  ["Konya", 1.8, "YHT"],
+  ["Sivas", 2.0, "YHT"],
+  ["Karaman", 2.7, "YHT"],
+  ["İstanbul", 5.0, "YHT"],
+  ["Kayseri", 7.0, "Konvansiyonel"],
+  ["Adana", 11.0, "Toros Ekspresi"],
+  ["İzmir", 14.0, "İzmir Mavi Treni"],
+  ["Erzurum", 22.0, "Doğu Ekspresi"],
+  ["Diyarbakır", 23.0, "G. Kurtalan Ekspresi"],
+  ["Kars", 26.0, "Doğu Ekspresi"]
 ];
 
-// Önizleme ve çevrimdışı çalışma için yerleşik veri seti (kitaplar.json yüklenemezse devreye girer)
+// Önizleme ve varsayılan katalog verisi
 const YEDEK_KITAPLAR = [
   {"ad":"Ben'i ararken","yazar":"Diker, Seda","dil":"TR","sayfa":432,"sure":10.8,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=12"},
   {"ad":"Havva","yazar":"Işınsu, Emine","dil":"TR","sayfa":184,"sure":4.6,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=13"},
@@ -199,20 +517,28 @@ const YEDEK_KITAPLAR = [
   {"ad":"Sancı","yazar":"Işınsu, Emine","dil":"TR","sayfa":360,"sure":9.0,"link":"https://katalog.ankara.bel.tr/cgi-bin/koha/opac-detail.pl?biblionumber=61"}
 ];
 
+const STORAGE_KEY = "trendeoku_custom_books_v1";
+const AUTH_KEY = "trendeoku_admin_auth";
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "şifreveşifre";
 const ADIM = 5;
+
 const guzergahEl = document.getElementById("guzergah");
 const sonucEl = document.getElementById("sonuc");
 
-let kitaplar = [...YEDEK_KITAPLAR];
+let kitaplar = [];
+let ozelVeriAktif = false;
 let seciliSehir = "";
 let gidisDonus = false;
 let yonTers = false;
 let gosterilen = ADIM;
+let aktifGorunum = "home";
 
-const sayi = n => n.toLocaleString("tr-TR", {maximumFractionDigits: 1});
+const sayi = n => Number(n).toLocaleString("tr-TR", { maximumFractionDigits: 1 });
 const saat = n => sayi(n) + " saat";
 
 function yazarDuzelt(y) {
+  if (!y) return "Bilinmeyen Yazar";
   const p = y.split(", ");
   return p.length === 2 ? `${p[1]} ${p[0]}` : y;
 }
@@ -239,6 +565,135 @@ function el(tag, attrs = {}, ...cocuklar) {
   return e;
 }
 
+// ==================== VERİ YÖNETİMİ (LocalStorage + Fetch) ====================
+function verileriYukle() {
+  try {
+    const kayitli = localStorage.getItem(STORAGE_KEY);
+    if (kayitli) {
+      const parsed = JSON.parse(kayitli);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        kitaplar = parsed;
+        ozelVeriAktif = true;
+        durumRozetleriniGuncelle();
+        return;
+      }
+    }
+  } catch (e) { /* LocalStorage erişim hatasında yedek veriye geç */ }
+
+  kitaplar = [...YEDEK_KITAPLAR];
+  ozelVeriAktif = false;
+  durumRozetleriniGuncelle();
+
+  fetch("kitaplar.json")
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(v => {
+      if (!ozelVeriAktif && Array.isArray(v) && v.length) {
+        kitaplar = v;
+        durumRozetleriniGuncelle();
+        if (seciliSehir) goster();
+        renderAdminTable();
+      }
+    })
+    .catch(() => {});
+}
+
+function ozelVeriyiKaydet(yeniListe) {
+  kitaplar = yeniListe;
+  ozelVeriAktif = true;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(kitaplar));
+  durumRozetleriniGuncelle();
+  if (seciliSehir) goster();
+  renderAdminTable();
+}
+
+function durumRozetleriniGuncelle() {
+  const rozet = document.getElementById("veri-kaynak-rozet");
+  if (rozet) {
+    rozet.innerHTML = ozelVeriAktif
+      ? `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Özel katalog aktif (${kitaplar.length} kitap • 40 sayfa/saat)`
+      : `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Saatte ~40 sayfa okuma hızı baz alınır (${kitaplar.length} kitap)`;
+  }
+
+  const adminCount = document.getElementById("admin-book-count");
+  const adminBadge = document.getElementById("admin-source-badge");
+  if (adminCount) adminCount.textContent = kitaplar.length;
+  if (adminBadge) {
+    if (ozelVeriAktif) {
+      adminBadge.textContent = "Özel Yüklenen Veri (Tarayıcıda Kayıtlı)";
+      adminBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800";
+    } else {
+      adminBadge.textContent = "Varsayılan Katalog";
+      adminBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800";
+    }
+  }
+}
+
+// ==================== GÖRÜNÜM GEÇİŞLERİ (ANA SAYFA / BENİ OKU / ADMIN) ====================
+const HERO_META = {
+  home: {
+    badge: "Ankara YHT Gar Kütüphanesi Kataloğu",
+    title: "Trende ne okusam?",
+    subtitle: "Güzergahınızı ve yolculuk tipinizi seçin; tren yolculuğunuzun süresine tam sığan kitapları kataloğumuzdan önerelim."
+  },
+  readme: {
+    badge: "Proje Dokümantasyonu & Rehber",
+    title: "Beni Oku",
+    subtitle: "Ankara Train Book Recommender projesinin çalışma mantığı, veri toplama mimarisi ve yolculuk süresi hesaplama detayları."
+  },
+  admin: {
+    badge: "Yönetim & Veri Güncelleme Paneli",
+    title: "Katalog Yönetimi",
+    subtitle: "Kod değişikliği yapmadan yeni kitap ekleyebilir, CSV veya JSON dosyası yükleyerek öneri kataloğunu güncelleyebilirsiniz."
+  }
+};
+
+function switchView(viewName) {
+  aktifGorunum = viewName;
+
+  // Tüm görünümleri gizle, seçileni göster
+  document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
+  const targetSec = document.getElementById(`view-${viewName}`);
+  if (targetSec) targetSec.classList.remove("hidden");
+
+  // Üst buton grubu aktiflik stilleri
+  const btnHome = document.getElementById("nav-home");
+  const btnReadme = document.getElementById("nav-readme");
+  const btnAdmin = document.getElementById("nav-admin");
+
+  const activeGroupCls = "nav-btn px-4 py-1.5 rounded-md text-sm font-semibold transition-all cursor-pointer bg-white text-abb shadow-xs";
+  const passiveGroupCls = "nav-btn px-4 py-1.5 rounded-md text-sm font-semibold transition-all cursor-pointer text-blue-100 hover:text-white hover:bg-white/10";
+
+  btnHome.className = viewName === "home" ? activeGroupCls : passiveGroupCls;
+  btnReadme.className = viewName === "readme" ? activeGroupCls : passiveGroupCls;
+
+  if (viewName === "admin") {
+    btnAdmin.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold bg-white text-abb border border-white transition-all cursor-pointer shadow-xs";
+    adminGorunumunuHazirla();
+  } else {
+    btnAdmin.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/25 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white";
+  }
+
+  // Hero metinlerini güncelle
+  const meta = HERO_META[viewName] || HERO_META.home;
+  document.getElementById("hero-badge").textContent = meta.badge;
+  document.getElementById("hero-title").textContent = meta.title;
+  document.getElementById("hero-subtitle").textContent = meta.subtitle;
+
+  // URL hash yönetimi (Ana Sayfa tıklandığında index.html ana haline döner)
+  if (viewName === "home") {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  } else {
+    history.replaceState(null, "", `#${viewName}`);
+  }
+}
+
+document.getElementById("nav-home").addEventListener("click", () => switchView("home"));
+document.getElementById("nav-readme").addEventListener("click", () => switchView("readme"));
+document.getElementById("nav-admin").addEventListener("click", () => switchView("admin"));
+
+// ==================== ANA SAYFA: ROTA & KİTAP ÖNERİLERİ ====================
 function ankaraKutusu(etiketMetni, pozisyon) {
   const hizalama = pozisyon === "sag" ? "md:pl-7" : "md:pr-7";
   return el("div", {
@@ -276,7 +731,7 @@ function sehirKutusu(etiketMetni, pozisyon) {
 
   const bulunan = SEHIRLER.find(x => x[0] === seciliSehir);
   const altYazi = bulunan
-    ? `Tek yön yaklaşık ${saat(bulunan[1])}`
+    ? `Tek yön yaklaşık ${saat(bulunan[1])} • ${bulunan[2]}`
     : "Kütüphane Ankara Garı'ndadır";
 
   return el("div", {
@@ -293,7 +748,6 @@ function guzergahCiz() {
   const neredenKutu = yonTers ? sehirKutusu("Nereden", "sol") : ankaraKutusu("Nereden", "sol");
   const nereyeKutu  = yonTers ? ankaraKutusu("Nereye", "sag")  : sehirKutusu("Nereye", "sag");
 
-  // İki dikdörtgen kutunun tam birleşim noktasının üzerine oturan yön değiştirme butonu
   const swapBtn = el("button", {
     class: "swap-btn z-10 mx-auto -my-3.5 md:my-0 md:-mx-5 w-10 h-10 rounded-full bg-white dark:bg-[#181e28] border border-[#cfd6e4] dark:border-[#384358] text-abb dark:text-[#7c9cf2] hover:border-abb hover:bg-abb-tint dark:hover:bg-[#253047] shadow-md flex items-center justify-center cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-abb",
     type: "button",
@@ -342,13 +796,15 @@ function kart(k, yolculuk) {
     ),
     el("div", { class: "flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#eef1f7] dark:border-[#262f3f] text-sm text-[#566072] dark:text-[#9ba5b8]" },
       el("span", { text: `${k.sayfa} sayfa • Yaklaşık ${saat(k.sure)} okuma` }),
-      el("a", {
-        href: k.link,
-        target: "_blank",
-        rel: "noopener noreferrer",
-        class: "inline-flex items-center gap-1 font-semibold text-abb dark:text-[#7c9cf2] hover:underline",
-        text: "Katalogda gör →"
-      })
+      k.link
+        ? el("a", {
+            href: k.link,
+            target: "_blank",
+            rel: "noopener noreferrer",
+            class: "inline-flex items-center gap-1 font-semibold text-abb dark:text-[#7c9cf2] hover:underline",
+            text: "Katalogda gör →"
+          })
+        : el("span", { class: "text-xs italic", text: "Özel kayıt" })
     )
   );
 }
@@ -364,7 +820,7 @@ function bosDurum() {
 
   kutu.append(
     ikon,
-    el("h2", { class: "text-base sm:text-lg font-semibold text-[#1c2330] dark:text-white mb-1", text: "Henüz bir rota seçilmedi" }),
+    el("h2", { class: "text-base sm:text-lg font-semibold text-[#1c2330] dark:text-white mb-1", text: "Henüz bir varış şehri seçilmedi" }),
     el("p", { class: "text-sm text-[#566072] dark:text-[#9ba5b8] max-w-md mx-auto", text: "Yukarıdaki listeden gideceğiniz şehri seçtiğinizde, yolculuk sürenize en uygun kitaplar burada listelenecektir." })
   );
   return kutu;
@@ -430,19 +886,308 @@ document.querySelectorAll('input[name="yolculukTipi"]').forEach(r => {
   });
 });
 
-// İlk çizim
+// ==================== BENİ OKU TABLOSU ====================
+function readmeTablosunuDoldur() {
+  const tbody = document.getElementById("readme-routes-table");
+  if (!tbody) return;
+  tbody.replaceChildren();
+  SEHIRLER.forEach(([sehir, sure, hat]) => {
+    const tr = el("tr", {},
+      el("td", { class: "py-2 font-medium text-[#1c2330] dark:text-white", text: sehir }),
+      el("td", { class: "py-2 text-xs text-[#566072] dark:text-[#9ba5b8]", text: hat }),
+      el("td", { class: "py-2 text-right font-semibold text-abb dark:text-[#7c9cf2]", text: saat(sure) })
+    );
+    tbody.append(tr);
+  });
+}
+
+// ==================== ADMIN PANELİ & KİMLİK DOĞRULAMA ====================
+function adminOturumuAcikMi() {
+  return sessionStorage.getItem(AUTH_KEY) === "1";
+}
+
+function adminGorunumunuHazirla() {
+  const loginBox = document.getElementById("admin-login-box");
+  const dashboard = document.getElementById("admin-dashboard");
+  if (adminOturumuAcikMi()) {
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+    durumRozetleriniGuncelle();
+    renderAdminTable();
+  } else {
+    loginBox.classList.remove("hidden");
+    dashboard.classList.add("hidden");
+  }
+}
+
+document.getElementById("admin-login-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const user = document.getElementById("admin-user").value.trim();
+  const pass = document.getElementById("admin-pass").value;
+  const errBox = document.getElementById("admin-login-error");
+
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    errBox.classList.add("hidden");
+    sessionStorage.setItem(AUTH_KEY, "1");
+    document.getElementById("admin-pass").value = "";
+    adminGorunumunuHazirla();
+  } else {
+    errBox.classList.remove("hidden");
+  }
+});
+
+document.getElementById("btn-admin-logout").addEventListener("click", () => {
+  sessionStorage.removeItem(AUTH_KEY);
+  adminGorunumunuHazirla();
+});
+
+function adminBildirim(mesaj, tur = "basari") {
+  const toast = document.getElementById("admin-toast");
+  toast.textContent = mesaj;
+  toast.className = tur === "hata"
+    ? "mb-5 p-3.5 rounded-lg text-sm font-medium border bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300"
+    : "mb-5 p-3.5 rounded-lg text-sm font-medium border bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300";
+  toast.classList.remove("hidden");
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => toast.classList.add("hidden"), 5000);
+}
+
+// Sayfa sayısı yazıldıkça tahmini süreyi canlı hesapla
+document.getElementById("book-pages").addEventListener("input", e => {
+  const sayfa = parseInt(e.target.value, 10);
+  const preview = document.getElementById("book-duration-preview");
+  if (sayfa > 0) {
+    const hesap = Math.round((sayfa / 40) * 10) / 10;
+    preview.textContent = `${sayi(hesap)} sa`;
+  } else {
+    preview.textContent = "0 sa";
+  }
+});
+
+// Tekil kitap ekleme formu
+document.getElementById("add-book-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const ad = document.getElementById("book-title").value.trim();
+  const yazar = document.getElementById("book-author").value.trim();
+  const sayfa = parseInt(document.getElementById("book-pages").value, 10);
+  const dil = document.getElementById("book-lang").value;
+  const link = document.getElementById("book-link").value.trim();
+
+  if (!ad || !yazar || !(sayfa > 0)) return;
+
+  const sure = Math.max(0.1, Math.round((sayfa / 40) * 10) / 10);
+  const yeniKitap = { ad, yazar, dil, sayfa, sure, link };
+
+  ozelVeriyiKaydet([yeniKitap, ...kitaplar]);
+  e.target.reset();
+  document.getElementById("book-duration-preview").textContent = "0 sa";
+  adminBildirim(`"${ad}" (${saat(sure)}) kataloğa eklendi.`);
+});
+
+// CSV Ayrıştırıcı (scraper.py ve Excel CSV formatlarıyla tam uyumlu)
+function csvSatirAyristir(satir, ayirac) {
+  const hucreler = [];
+  let guncel = "";
+  let tirnakIcinde = false;
+
+  for (let i = 0; i < satir.length; i++) {
+    const ch = satir[i];
+    if (ch === '"') {
+      if (tirnakIcinde && satir[i + 1] === '"') {
+        guncel += '"';
+        i++;
+      } else {
+        tirnakIcinde = !tirnakIcinde;
+      }
+    } else if (ch === ayirac && !tirnakIcinde) {
+      hucreler.push(guncel.trim());
+      guncel = "";
+    } else {
+      guncel += ch;
+    }
+  }
+  hucreler.push(guncel.trim());
+  return hucreler;
+}
+
+function csvVerisiniIsle(metin) {
+  const temizMetin = metin.replace(/^\uFEFF/, "").trim();
+  const satirlar = temizMetin.split(/\r?\n/).filter(s => s.trim());
+  if (satirlar.length < 2) throw new Error("CSV dosyasında yeterli satır bulunamadı.");
+
+  const ayirac = (satirlar[0].match(/;/g) || []).length > (satirlar[0].match(/,/g) || []).length ? ";" : ",";
+  const basliklar = csvSatirAyristir(satirlar[0], ayirac).map(b => b.toLowerCase());
+
+  const idxAd = basliklar.findIndex(b => b.includes("kitap") || b === "ad" || b === "title");
+  const idxYazar = basliklar.findIndex(b => b.includes("yazar") || b === "author");
+  const idxDil = basliklar.findIndex(b => b.includes("dil") || b === "language");
+  const idxSayfa = basliklar.findIndex(b => b.includes("sayfa") || b === "pages");
+  const idxSure = basliklar.findIndex(b => b.includes("süre") || b.includes("sure") || b.includes("duration"));
+  const idxLink = basliklar.findIndex(b => b.includes("link") || b.includes("url"));
+
+  if (idxAd === -1 || idxSayfa === -1) {
+    throw new Error("CSV başlıklarında en az 'Kitap Adı' ve 'Sayfa Sayısı' sütunları bulunmalıdır.");
+  }
+
+  const sonucListesi = [];
+  for (let i = 1; i < satirlar.length; i++) {
+    const cols = csvSatirAyristir(satirlar[i], ayirac);
+    const ad = cols[idxAd] || "";
+    const sayfa = parseInt((cols[idxSayfa] || "").replace(/\D/g, ""), 10);
+    if (!ad || !(sayfa > 0)) continue;
+
+    let sure = 0;
+    if (idxSure !== -1 && cols[idxSure]) {
+      sure = parseFloat(cols[idxSure].replace(",", "."));
+    }
+    if (!(sure > 0)) {
+      sure = Math.max(0.1, Math.round((sayfa / 40) * 10) / 10);
+    }
+
+    sonucListesi.push({
+      ad,
+      yazar: idxYazar !== -1 ? (cols[idxYazar] || "") : "",
+      dil: idxDil !== -1 ? (cols[idxDil] || "TR") : "TR",
+      sayfa,
+      sure,
+      link: idxLink !== -1 ? (cols[idxLink] || "") : ""
+    });
+  }
+
+  if (!sonucListesi.length) throw new Error("CSV içinden geçerli kitap kaydı okunamadı.");
+  return sonucListesi;
+}
+
+function dosyaYukle(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const icerik = String(ev.target.result || "");
+      let yeniKitaplar = [];
+
+      if (file.name.toLowerCase().endsWith(".json") || icerik.trim().startsWith("[")) {
+        const parsed = JSON.parse(icerik);
+        if (!Array.isArray(parsed)) throw new Error("JSON dosyası bir kitap dizisi ([...]) olmalıdır.");
+        yeniKitaplar = parsed
+          .filter(k => k && (k.ad || k["Kitap Adı"]))
+          .map(k => {
+            const sayfa = parseInt(k.sayfa || k["Sayfa Sayısı"] || 0, 10) || 40;
+            const hamSure = parseFloat(String(k.sure || k["Tahmini Okunma Süresi (Saat)"] || 0).replace(",", "."));
+            return {
+              ad: String(k.ad || k["Kitap Adı"]).trim(),
+              yazar: String(k.yazar || k["Yazar"] || "").trim(),
+              dil: String(k.dil || k["Kitap Dili"] || "TR").trim(),
+              sayfa,
+              sure: hamSure > 0 ? hamSure : Math.max(0.1, Math.round((sayfa / 40) * 10) / 10),
+              link: String(k.link || k["Link"] || "").trim()
+            };
+          });
+      } else {
+        yeniKitaplar = csvVerisiniIsle(icerik);
+      }
+
+      if (!yeniKitaplar.length) throw new Error("Dosyada içe aktarılacak geçerli kitap bulunamadı.");
+      ozelVeriyiKaydet(yeniKitaplar);
+      adminBildirim(`${file.name} başarıyla yüklendi (${yeniKitaplar.length} kitap aktarıldı).`);
+    } catch (err) {
+      adminBildirim(`Dosya okunamadı: ${err.message}`, "hata");
+    }
+  };
+  reader.readAsText(file, "utf-8");
+}
+
+const fileInput = document.getElementById("file-upload");
+const dropZone = document.getElementById("drop-zone");
+
+fileInput.addEventListener("change", e => {
+  dosyaYukle(e.target.files[0]);
+  e.target.value = "";
+});
+
+dropZone.addEventListener("dragover", e => {
+  e.preventDefault();
+  dropZone.classList.add("border-abb", "bg-abb-tint/60");
+});
+dropZone.addEventListener("dragleave", () => {
+  dropZone.classList.remove("border-abb", "bg-abb-tint/60");
+});
+dropZone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropZone.classList.remove("border-abb", "bg-abb-tint/60");
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+    dosyaYukle(e.dataTransfer.files[0]);
+  }
+});
+
+// kitaplar.json İndirme ve Varsayılana Sıfırlama
+document.getElementById("btn-export-json").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(kitaplar, null, 1)], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kitaplar.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  adminBildirim("Güncel kitaplar.json dosyası indirildi.");
+});
+
+document.getElementById("btn-reset-data").addEventListener("click", () => {
+  localStorage.removeItem(STORAGE_KEY);
+  ozelVeriAktif = false;
+  verileriYukle();
+  renderAdminTable();
+  if (seciliSehir) goster();
+  adminBildirim("Katalog varsayılan 50 kitaplık veri setine döndürüldü.");
+});
+
+// Admin Katalog Tablosu ve Arama/Silme
+function renderAdminTable() {
+  const tbody = document.getElementById("admin-books-tbody");
+  if (!tbody) return;
+  const arama = (document.getElementById("admin-search").value || "").toLocaleLowerCase("tr-TR").trim();
+
+  tbody.replaceChildren();
+  kitaplar.forEach((k, index) => {
+    if (arama && !k.ad.toLocaleLowerCase("tr-TR").includes(arama) && !k.yazar.toLocaleLowerCase("tr-TR").includes(arama)) {
+      return;
+    }
+
+    const silBtn = el("button", {
+      type: "button",
+      class: "text-xs font-semibold text-red-600 dark:text-red-400 hover:underline cursor-pointer",
+      text: "Sil"
+    });
+    silBtn.addEventListener("click", () => {
+      const guncelListe = kitaplar.filter((_, i) => i !== index);
+      ozelVeriyiKaydet(guncelListe);
+      adminBildirim(`"${k.ad}" katalogdan çıkarıldı.`);
+    });
+
+    const tr = el("tr", { class: "hover:bg-[#f8fafe] dark:hover:bg-[#1e2533]" },
+      el("td", { class: "py-2.5 px-3 font-medium text-[#1c2330] dark:text-white", text: k.ad }),
+      el("td", { class: "py-2.5 px-3 text-[#566072] dark:text-[#9ba5b8]", text: yazarDuzelt(k.yazar) }),
+      el("td", { class: "py-2.5 px-3 text-right text-[#566072] dark:text-[#9ba5b8]", text: String(k.sayfa) }),
+      el("td", { class: "py-2.5 px-3 text-right font-semibold text-abb dark:text-[#7c9cf2]", text: saat(k.sure) }),
+      el("td", { class: "py-2.5 px-3 text-right" }, silBtn)
+    );
+    tbody.append(tr);
+  });
+}
+
+document.getElementById("admin-search").addEventListener("input", renderAdminTable);
+
+// ==================== BAŞLANGIÇ ====================
+verileriYukle();
+readmeTablosunuDoldur();
 guncelle();
 
-// Sunucu ortamında güncel kitaplar.json varsa onunla güncelle
-fetch("kitaplar.json")
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(v => {
-    if (Array.isArray(v) && v.length) {
-      kitaplar = v;
-      if (seciliSehir) goster();
-    }
-  })
-  .catch(() => { /* Yerleşik YEDEK_KITAPLAR kullanılmaya devam eder */ });
+const ilkHash = window.location.hash.replace("#", "");
+if (ilkHash === "readme" || ilkHash === "admin") {
+  switchView(ilkHash);
+}
 </script>
 </body>
 </html>
