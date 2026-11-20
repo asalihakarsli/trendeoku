@@ -283,8 +283,3 @@ def sure_araliginda_kitap_ekle(hedef_yeni_kitap=30, min_okuma_saati=0.1, maks_ok
         f"Toplam kitap sayısı: {len(df)} -> '{CIKTI_DOSYASI}'"
     )
     return df
-
-
-if __name__ == "__main__":
-    # 2.7 saat ve altında (<= 108 sayfa) okunabilen 30 yeni kitap ekler; mevcutları korur
-    sure_araliginda_kitap_ekle(hedef_yeni_kitap=30, min_okuma_saati=0.1, maks_okuma_saati=2.7)
