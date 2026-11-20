@@ -182,7 +182,7 @@ body.turistik-mod .kar-alani{display:block}
 h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weight:700;letter-spacing:-0.02em}
 .giris{margin:0;max-width:54ch;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,.9)}
 
-/* Turistik Tren Geçiş Butonu (Sağ Alt Hero) */
+/* Turistik Tren Geçiş Butonu */
 .turistik-btn{
   font:inherit;
   font-size:.9rem;
@@ -237,39 +237,53 @@ main{padding:0 0 var(--a6)}
 .radyo-etiket input:checked{border-color:var(--abb)}
 .radyo-etiket input:checked::before{transform:scale(1)}
 
-/* Bitişik Dikdörtgen Nereden - Nereye Kutuları */
-.guzergah{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;align-items:stretch}
+/* Eşit Genişlikli Bitişik Nereden - Nereye Kutuları */
+.guzergah{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
+  gap:14px;
+  position:relative;
+  align-items:stretch;
+}
 .durak-kutu{
+  min-width:0;
   background:var(--kutu);
   border:1.5px solid var(--cizgi);
   border-radius:10px;
-  padding:14px 22px;
+  padding:14px 20px;
   display:flex;
   flex-direction:column;
   justify-content:center;
-  min-height:92px;
+  min-height:94px;
   transition:border-color .15s,background .15s,box-shadow .15s;
 }
 .durak-kutu:first-child{padding-right:32px}
 .durak-kutu:last-child{padding-left:32px}
 .durak-kutu:focus-within{border-color:var(--abb);background:var(--kart);box-shadow:0 0 0 3px var(--abb-ton)}
 .durak-kutu .etiket{font-size:.8rem;font-weight:600;color:var(--soluk);margin-bottom:2px}
-.durak-kutu .ana-deger{font-size:1.3rem;font-weight:700;color:var(--metin);line-height:1.25}
-.durak-kutu .alt-bilgi{font-size:.82rem;color:var(--soluk);margin-top:3px}
+.durak-kutu .ana-deger{font-size:1.25rem;font-weight:700;color:var(--metin);line-height:1.25}
+.durak-kutu .alt-bilgi{
+  font-size:.82rem;
+  color:var(--soluk);
+  margin-top:3px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 .durak-kutu .alt-bilgi em{font-style:italic;font-weight:500;color:var(--abb)}
 
-/* Özel Şehir Seçim Menüsü (İtalik Parantez Desteği İçin) */
-.sehir-secici-sarici{position:relative;width:100%}
+/* Özel Şehir Seçim Menüsü */
+.sehir-secici-sarici{position:relative;width:100%;min-width:0}
 .sehir-tetikleyici{
   width:100%;
   text-align:left;
   font:inherit;
-  font-size:1.22rem;
+  font-size:1.2rem;
   font-weight:700;
   color:var(--metin);
   background:transparent;
   border:0;
-  padding:0 26px 0 0;
+  padding:0 24px 0 0;
   margin:0;
   cursor:pointer;
   line-height:1.3;
@@ -284,7 +298,7 @@ main{padding:0 0 var(--a6)}
 .sehir-tetikleyici .tur-etiket{
   font-weight:400;
   font-style:italic;
-  font-size:.98rem;
+  font-size:.95rem;
   color:var(--soluk);
 }
 .sehir-liste{
@@ -307,7 +321,7 @@ main{padding:0 0 var(--a6)}
   width:100%;
   text-align:left;
   font:inherit;
-  font-size:.98rem;
+  font-size:.96rem;
   font-weight:600;
   color:var(--metin);
   background:transparent;
@@ -324,6 +338,12 @@ main{padding:0 0 var(--a6)}
   font-weight:400;
   font-style:italic;
   opacity:.85;
+}
+.sehir-secenek .ekspres-alt{
+  display:block;
+  font-size:.78rem;
+  font-weight:400;
+  opacity:.78;
 }
 
 .degistir-btn{
@@ -400,6 +420,7 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
   line-height:1.25;
   display:-webkit-box;
   -webkit-line-clamp:4;
+  line-clamp:4;
   -webkit-box-orient:vertical;
   overflow:hidden;
 }
@@ -719,12 +740,12 @@ const STANDART_SEHIRLER = [
   ["Sivas", 2.0, "YHT"],
   ["Karaman", 2.7, "YHT"],
   ["İstanbul", 5.0, "YHT"],
-  ["Kayseri", 7.0, "Konvansiyonel Tren"],
-  ["Adana", 11.0, "Konvansiyonel Tren"],
-  ["İzmir", 14.0, "Konvansiyonel Tren"],
-  ["Erzurum", 22.0, "Konvansiyonel Tren"],
-  ["Diyarbakır", 23.0, "Konvansiyonel Tren"],
-  ["Kars", 26.0, "Konvansiyonel Tren"]
+  ["Kayseri", 7.0, "konvansiyonel tren"],
+  ["Adana", 11.0, "konvansiyonel tren"],
+  ["İzmir", 14.0, "konvansiyonel tren"],
+  ["Erzurum", 22.0, "konvansiyonel tren"],
+  ["Diyarbakır", 23.0, "konvansiyonel tren"],
+  ["Kars", 26.0, "konvansiyonel tren"]
 ];
 
 const TURISTIK_SEHIRLER = [
@@ -884,18 +905,6 @@ function ankaraKutusu(etiketMetni){
   );
 }
 
-function sehirEtiketiOlustur(kayit) {
-  const [ad, , hatTur, ekspresAd] = kayit;
-  const span = document.createDocumentFragment();
-  const anaMetin = ekspresAd ? `${ad} – ${ekspresAd} ` : `${ad} `;
-  span.append(document.createTextNode(anaMetin));
-  const em = document.createElement("em");
-  em.className = "tur-etiket";
-  em.textContent = `(${hatTur})`;
-  span.append(em);
-  return span;
-}
-
 function sehirKutusu(etiketMetni){
   const liste = aktifSehirListesi();
   const bulunan = liste.find(x => x[0] === seciliSehir);
@@ -910,7 +919,12 @@ function sehirKutusu(etiketMetni){
   });
 
   if (bulunan) {
-    tetikleyici.append(sehirEtiketiOlustur(bulunan));
+    const [ad, , hatTur] = bulunan;
+    tetikleyici.append(document.createTextNode(ad + " "));
+    const em = document.createElement("em");
+    em.className = "tur-etiket";
+    em.textContent = `(${hatTur})`;
+    tetikleyici.append(em);
   } else {
     tetikleyici.textContent = turistikMod ? "Turistik rota seçin..." : "Şehir seçin...";
   }
@@ -932,14 +946,23 @@ function sehirKutusu(etiketMetni){
   acilirListe.append(bosSecenek);
 
   liste.forEach(kayit => {
-    const [ad] = kayit;
+    const [ad, , hatTur, ekspresAd] = kayit;
     const secenekBtn = el("button", {
       type: "button",
       class: "sehir-secenek",
       role: "option",
       "aria-selected": String(ad === seciliSehir)
     });
-    secenekBtn.append(sehirEtiketiOlustur(kayit));
+    secenekBtn.append(document.createTextNode(ad + " "));
+    const em = document.createElement("em");
+    em.className = "tur-etiket";
+    em.textContent = `(${hatTur})`;
+    secenekBtn.append(em);
+
+    if (ekspresAd) {
+      secenekBtn.append(el("span", {class: "ekspres-alt", text: ekspresAd}));
+    }
+
     secenekBtn.addEventListener("click", () => {
       seciliSehir = ad;
       gosterilen = ADIM;
@@ -958,12 +981,9 @@ function sehirKutusu(etiketMetni){
 
   const altBilgiEl = el("span", {class: "alt-bilgi"});
   if (bulunan) {
-    altBilgiEl.append(document.createTextNode("Sefer türü: "));
-    const em = document.createElement("em");
-    em.textContent = bulunan[2];
-    altBilgiEl.append(em);
+    altBilgiEl.textContent = bulunan[3] ? bulunan[3] : "Ankara Garı bağlantılı hat";
   } else {
-    altBilgiEl.textContent = "Kütüphane Ankara Garı'ndadır";
+    altBilgiEl.textContent = "Yönü ortadaki okla değiştirebilirsiniz";
   }
 
   return el("div", {class:"durak-kutu"},
