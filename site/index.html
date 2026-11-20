@@ -7,7 +7,7 @@
 <meta name="description" content="Ankara YHT Gar Kütüphanesi kataloğundan tren yolculuğunuzun süresine sığan kitapları bulun.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 :root{
   --abb:#274189;
@@ -36,6 +36,30 @@
     --hata:#f97066; --hata-ton:#331b1b;
   }
 }
+
+/* Turistik Tren Kırmızı Kış Teması */
+body.turistik-mod{
+  --abb:#b91c1c;
+  --abb-koyu:#7f1d1d;
+  --abb-ton:#fee2e2;
+  --zemin:#fdf6f6;
+  --kutu:#fbf2f2;
+  --cizgi:#ebd4d4;
+  --golge:rgba(127,29,29,.14);
+}
+@media (prefers-color-scheme:dark){
+  body.turistik-mod{
+    --abb:#ef4444;
+    --abb-koyu:#7f1d1d;
+    --abb-ton:#3b1818;
+    --zemin:#181010;
+    --kart:#241717;
+    --kutu:#2e1d1d;
+    --cizgi:#4a2c2c;
+    --golge:rgba(0,0,0,.5);
+  }
+}
+
 *{box-sizing:border-box}
 body{
   margin:0;
@@ -44,7 +68,35 @@ body{
   font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   font-size:16px;
   line-height:1.6;
+  transition:background-color .25s ease, color .25s ease;
 }
+
+/* Kar Taneleri Katmanı */
+.kar-alani{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:50;
+  display:none;
+}
+body.turistik-mod .kar-alani{display:block}
+.kar-tanesi{
+  position:absolute;
+  top:-30px;
+  color:#ffffff;
+  text-shadow:0 1px 4px rgba(127,29,29,.35);
+  user-select:none;
+  animation-name:karYagisi;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+@keyframes karYagisi{
+  0%{transform:translateY(-30px) translateX(0) rotate(0deg);opacity:.92}
+  50%{transform:translateY(50vh) translateX(18px) rotate(180deg);opacity:.85}
+  100%{transform:translateY(105vh) translateX(-12px) rotate(360deg);opacity:.2}
+}
+
 .kap{max-width:840px;margin:0 auto;padding:0 var(--a3)}
 
 /* Üst Navigasyon */
@@ -52,6 +104,7 @@ body{
   background:var(--abb);
   border-bottom:1px solid rgba(255,255,255,.14);
   padding-top:env(safe-area-inset-top,0px);
+  transition:background-color .25s ease;
 }
 @media (prefers-color-scheme:dark){.ust-nav{background:var(--abb-koyu)}}
 .nav-ic{
@@ -115,11 +168,48 @@ body{
   background:var(--abb);
   color:#fff;
   padding:32px 0 88px;
+  transition:background-color .25s ease;
 }
 .ust-bolum.kompakt{padding:32px 0 40px}
 @media (prefers-color-scheme:dark){.ust-bolum{background:var(--abb-koyu)}}
+.hero-alt-satir{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+  flex-wrap:wrap;
+}
 h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weight:700;letter-spacing:-0.02em}
-.giris{margin:0;max-width:56ch;font-size:1.05rem;line-height:1.55;color:#e6ebf8}
+.giris{margin:0;max-width:54ch;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,.9)}
+
+/* Turistik Tren Geçiş Butonu (Sağ Alt Hero) */
+.turistik-btn{
+  font:inherit;
+  font-size:.9rem;
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,.15);
+  border:1.5px solid rgba(255,255,255,.45);
+  padding:9px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  backdrop-filter:blur(4px);
+  transition:all .18s ease;
+  white-space:nowrap;
+}
+.turistik-btn:hover{
+  background:rgba(255,255,255,.26);
+  transform:translateY(-1px);
+}
+body.turistik-mod .turistik-btn{
+  background:#ffffff;
+  color:#991b1b;
+  border-color:#ffffff;
+  box-shadow:0 4px 14px rgba(0,0,0,.22);
+}
 
 main{padding:0 0 var(--a6)}
 .sayfa-gorunum{display:none}
@@ -165,27 +255,76 @@ main{padding:0 0 var(--a6)}
 .durak-kutu:focus-within{border-color:var(--abb);background:var(--kart);box-shadow:0 0 0 3px var(--abb-ton)}
 .durak-kutu .etiket{font-size:.8rem;font-weight:600;color:var(--soluk);margin-bottom:2px}
 .durak-kutu .ana-deger{font-size:1.3rem;font-weight:700;color:var(--metin);line-height:1.25}
-.durak-kutu .alt-bilgi{font-size:.82rem;color:var(--soluk);margin-top:2px}
+.durak-kutu .alt-bilgi{font-size:.82rem;color:var(--soluk);margin-top:3px}
+.durak-kutu .alt-bilgi em{font-style:italic;font-weight:500;color:var(--abb)}
 
-.durak-kutu select{
-  appearance:none;
+/* Özel Şehir Seçim Menüsü (İtalik Parantez Desteği İçin) */
+.sehir-secici-sarici{position:relative;width:100%}
+.sehir-tetikleyici{
+  width:100%;
+  text-align:left;
   font:inherit;
-  font-size:1.3rem;
+  font-size:1.22rem;
   font-weight:700;
   color:var(--metin);
   background:transparent;
   border:0;
   padding:0 26px 0 0;
   margin:0;
-  width:100%;
   cursor:pointer;
-  line-height:1.25;
+  line-height:1.3;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23566072' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat:no-repeat;
   background-position:right center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-.durak-kutu select option{background:var(--kart);color:var(--metin);font-weight:600;font-size:1rem}
-.durak-kutu select:focus{outline:none}
+.sehir-tetikleyici:focus{outline:none}
+.sehir-tetikleyici .tur-etiket{
+  font-weight:400;
+  font-style:italic;
+  font-size:.98rem;
+  color:var(--soluk);
+}
+.sehir-liste{
+  position:absolute;
+  left:-14px;
+  right:-14px;
+  top:calc(100% + 10px);
+  background:var(--kart);
+  border:1.5px solid var(--cizgi);
+  border-radius:10px;
+  box-shadow:0 14px 32px -6px var(--golge);
+  max-height:290px;
+  overflow-y:auto;
+  z-index:40;
+  padding:6px;
+  display:none;
+}
+.sehir-liste.acik{display:block}
+.sehir-secenek{
+  width:100%;
+  text-align:left;
+  font:inherit;
+  font-size:.98rem;
+  font-weight:600;
+  color:var(--metin);
+  background:transparent;
+  border:0;
+  padding:9px 12px;
+  border-radius:7px;
+  cursor:pointer;
+  display:block;
+  transition:background .12s;
+}
+.sehir-secenek:hover{background:var(--abb-ton)}
+.sehir-secenek[aria-selected="true"]{background:var(--abb);color:#fff}
+.sehir-secenek .tur-etiket{
+  font-weight:400;
+  font-style:italic;
+  opacity:.85;
+}
 
 .degistir-btn{
   position:absolute;
@@ -209,7 +348,7 @@ main{padding:0 0 var(--a6)}
 .degistir-btn svg{width:19px;height:19px;transition:transform .25s ease}
 .degistir-btn[data-ters="true"] svg{transform:rotate(180deg)}
 
-/* Kitap Öneri Kartları (Kapak Görseli + Özet Dahil) */
+/* Kitap Öneri Kartları */
 h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
 .not{margin:0 0 var(--a3);color:var(--soluk);max-width:64ch}
 .bos{padding:var(--a3);border:1.5px dashed var(--cizgi);border-radius:10px;color:var(--soluk);background:var(--kart)}
@@ -226,7 +365,6 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
   align-items:flex-start;
 }
 
-/* Kapak Görseli & Tipografik Fallback */
 .kapak-alan{
   width:96px;
   min-width:96px;
@@ -262,13 +400,12 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
   line-height:1.25;
   display:-webkit-box;
   -webkit-line-clamp:4;
-  line-clamp:4;
   -webkit-box-orient:vertical;
   overflow:hidden;
 }
 .kapak-yedek .kapak-yazar{
   font-size:.66rem;
-  color:rgba(255,255,255,.8);
+  color:rgba(255,255,255,.82);
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -389,6 +526,8 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
 </head>
 <body>
 
+<div class="kar-alani" id="karAlani" aria-hidden="true"></div>
+
 <nav class="ust-nav" aria-label="Ana gezinme">
   <div class="nav-ic">
     <div class="btn-grup" role="group" aria-label="Sayfalar">
@@ -405,7 +544,13 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
 <header class="ust-bolum" id="heroAlan">
   <div class="kap">
     <h1 id="heroBaslik">Trende ne okusam?</h1>
-    <p class="giris" id="heroAciklama">Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.</p>
+    <div class="hero-alt-satir">
+      <p class="giris" id="heroAciklama">Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.</p>
+      <button type="button" class="turistik-btn" id="turistikToggleBtn" aria-pressed="false">
+        <span aria-hidden="true">❄️</span>
+        <span id="turistikBtnYazi">Turistik Tren</span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -433,7 +578,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
     <details>
       <summary>Notlar ve sınırlamalar</summary>
       <p>Okunma süresi, sayfa sayısının saatte 40 sayfa okuma hızına bölünmesiyle tahmin edilir. Herkesin hızı farklıdır.</p>
-      <p>Yolculuk süreleri yaklaşık değerdir; bilet almadan önce resmi tarifeyi kontrol edin. Kayseri ve sonrasındaki hatlar hızlı tren değil, konvansiyonel trenlerdir.</p>
+      <p>Yolculuk süreleri yaklaşık değerdir; bilet almadan önce resmi tarifeyi kontrol edin. Kayseri ve sonrasındaki hatlar hızlı tren değil, konvansiyonel trenlerdir; turistik tren seferleri ise mevsimsel tarifeye göre işletilir.</p>
       <p>Veri, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan örnek veri setidir; Admin panelinden güncel katalog dosyası yüklenebilir.</p>
     </details>
   </div>
@@ -456,7 +601,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
       <div class="tablo-kap">
         <table>
           <thead>
-            <tr><th>Varış / Kalkış Şehri</th><th>Hat Türü</th><th>Tek Yön Süre</th><th>Gidiş-Dönüş</th></tr>
+            <tr><th>Varış / Kalkış Noktası</th><th>Hat Türü</th><th>Tek Yön Süre</th><th>Gidiş-Dönüş</th></tr>
           </thead>
           <tbody id="sehirTabloGovde"></tbody>
         </table>
@@ -568,10 +713,26 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
 </main>
 
 <script>
-const SEHIRLER = [
-  ["Eskişehir",1.5,"YHT"],["Konya",1.8,"YHT"],["Sivas",2.0,"YHT"],["Karaman",2.7,"YHT"],["İstanbul",5.0,"YHT"],
-  ["Kayseri",7.0,"Konvansiyonel"],["Adana",11.0,"Konvansiyonel"],["İzmir",14.0,"Konvansiyonel"],
-  ["Erzurum",22.0,"Konvansiyonel"],["Diyarbakır",23.0,"Konvansiyonel"],["Kars",26.0,"Konvansiyonel"]
+const STANDART_SEHIRLER = [
+  ["Eskişehir", 1.5, "YHT"],
+  ["Konya", 1.8, "YHT"],
+  ["Sivas", 2.0, "YHT"],
+  ["Karaman", 2.7, "YHT"],
+  ["İstanbul", 5.0, "YHT"],
+  ["Kayseri", 7.0, "konvansiyonel tren"],
+  ["Adana", 11.0, "konvansiyonel tren"],
+  ["İzmir", 14.0, "konvansiyonel tren"],
+  ["Erzurum", 22.0, "konvansiyonel tren"],
+  ["Diyarbakır", 23.0, "konvansiyonel tren"],
+  ["Kars", 26.0, "konvansiyonel tren"]
+];
+
+const TURISTIK_SEHIRLER = [
+  ["Kars", 32.0, "turistik tren", "Turistik Doğu Ekspresi"],
+  ["Diyarbakır", 24.0, "turistik tren", "Turistik Diyarbakır Ekspresi"],
+  ["Tatvan", 28.0, "turistik tren", "Turistik Tatvan Treni"],
+  ["Zonguldak", 11.0, "turistik tren", "Turistik Karaelmas Ekspresi"],
+  ["Çankırı", 4.0, "turistik tren", "Turistik Tuz Ekspresi"]
 ];
 
 const ADMIN_USER = "admin";
@@ -585,12 +746,18 @@ let kitaplar = [];
 let seciliSehir = "";
 let gidisDonus = false;
 let yonTers = false;
+let turistikMod = false;
+let aktifSayfa = "ana";
 let gosterilen = ADIM;
 
 const guzergahEl = document.getElementById("guzergah");
 const sonuc = document.getElementById("sonuc");
 const sayi = n => n.toLocaleString("tr-TR", {maximumFractionDigits:1});
 const saat = n => sayi(n) + " saat";
+
+function aktifSehirListesi() {
+  return turistikMod ? TURISTIK_SEHIRLER : STANDART_SEHIRLER;
+}
 
 function ozetKisalt(metin) {
   if (!metin) return "";
@@ -627,26 +794,71 @@ function el(tag, attrs = {}, ...cocuklar){
   return e;
 }
 
-/* Sayfa Geçişleri */
-const HERO_METINLERI = {
-  "ana": {
-    baslik: "Trende ne okusam?",
-    aciklama: "Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.",
-    kompakt: false
-  },
-  "beni-oku": {
-    baslik: "Beni Oku",
-    aciklama: "Ankara YHT Gar Kütüphanesi kitap öneri sisteminin mimarisi, veri toplama süreci ve kullanım rehberi.",
-    kompakt: true
-  },
-  "admin": {
-    baslik: "Yönetim Paneli",
-    aciklama: "Kütüphane veri setini güncelleyin, kapak görseli ve özet bilgisiyle yeni kitaplar ekleyin.",
-    kompakt: true
+/* Kar Taneleri Oluşturucu */
+function karTaneleriOlustur() {
+  const alan = document.getElementById("karAlani");
+  if (alan.children.length > 0) return;
+  const semboller = ["❄", "❅", "❆", "•"];
+  for (let i = 0; i < 42; i++) {
+    const tane = document.createElement("span");
+    tane.className = "kar-tanesi";
+    tane.textContent = semboller[i % semboller.length];
+    tane.style.left = (Math.random() * 100).toFixed(2) + "%";
+    tane.style.fontSize = (10 + Math.random() * 14).toFixed(1) + "px";
+    tane.style.animationDuration = (7 + Math.random() * 10).toFixed(2) + "s";
+    tane.style.animationDelay = (-Math.random() * 14).toFixed(2) + "s";
+    alan.appendChild(tane);
   }
-};
+}
+karTaneleriOlustur();
 
+/* Hero Metin Güncelleme */
+function heroGuncelle() {
+  const baslikEl = document.getElementById("heroBaslik");
+  const aciklamaEl = document.getElementById("heroAciklama");
+  const heroAlan = document.getElementById("heroAlan");
+  const turistikBtn = document.getElementById("turistikToggleBtn");
+
+  if (aktifSayfa === "ana") {
+    heroAlan.classList.remove("kompakt");
+    turistikBtn.style.display = "inline-flex";
+    if (turistikMod) {
+      baslikEl.textContent = "Turistik trende ne okusam?";
+      aciklamaEl.textContent = "TCDD Turistik Tren rotanızı ve yolculuk tipinizi seçin; uzun kış masalı yolculuğunuza sığan kitapları önerelim.";
+    } else {
+      baslikEl.textContent = "Trende ne okusam?";
+      aciklamaEl.textContent = "Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.";
+    }
+  } else if (aktifSayfa === "beni-oku") {
+    heroAlan.classList.add("kompakt");
+    turistikBtn.style.display = "none";
+    baslikEl.textContent = "Beni Oku";
+    aciklamaEl.textContent = "Ankara YHT Gar Kütüphanesi kitap öneri sisteminin mimarisi, veri toplama süreci ve kullanım rehberi.";
+  } else if (aktifSayfa === "admin") {
+    heroAlan.classList.add("kompakt");
+    turistikBtn.style.display = "none";
+    baslikEl.textContent = "Yönetim Paneli";
+    aciklamaEl.textContent = "Kütüphane veri setini güncelleyin, kapak görseli ve özet bilgisiyle yeni kitaplar ekleyin.";
+  }
+}
+
+/* Turistik Tren Modu Geçişi */
+document.getElementById("turistikToggleBtn").addEventListener("click", () => {
+  turistikMod = !turistikMod;
+  document.body.classList.toggle("turistik-mod", turistikMod);
+  const btn = document.getElementById("turistikToggleBtn");
+  btn.setAttribute("aria-pressed", String(turistikMod));
+  document.getElementById("turistikBtnYazi").textContent = turistikMod ? "Standart Hatlar" : "Turistik Tren";
+
+  seciliSehir = "";
+  gosterilen = ADIM;
+  heroGuncelle();
+  guncelle();
+});
+
+/* Sayfa Geçişleri */
 function sayfaDegistir(hedef) {
+  aktifSayfa = hedef;
   document.querySelectorAll(".sayfa-gorunum").forEach(s => s.classList.remove("aktif"));
   document.getElementById("sayfa-" + hedef).classList.add("aktif");
 
@@ -655,11 +867,7 @@ function sayfaDegistir(hedef) {
     else btn.removeAttribute("aria-current");
   });
 
-  const bilgi = HERO_METINLERI[hedef];
-  document.getElementById("heroBaslik").textContent = bilgi.baslik;
-  document.getElementById("heroAciklama").textContent = bilgi.aciklama;
-  document.getElementById("heroAlan").classList.toggle("kompakt", bilgi.kompakt);
-
+  heroGuncelle();
   if (hedef === "admin") adminDurumGuncelle();
 }
 
@@ -672,33 +880,102 @@ function ankaraKutusu(etiketMetni){
   return el("div", {class:"durak-kutu"},
     el("span", {class:"etiket", text:etiketMetni}),
     el("span", {class:"ana-deger", text:"Ankara"}),
-    el("span", {class:"alt-bilgi", text:"Ankara YHT Garı"})
+    el("span", {class:"alt-bilgi", text: turistikMod ? "Ankara Garı (Turistik Hat)" : "Ankara YHT Garı"})
   );
+}
+
+function sehirEtiketiOlustur(kayit) {
+  const [ad, , hatTur, ekspresAd] = kayit;
+  const span = document.createDocumentFragment();
+  const anaMetin = ekspresAd ? `${ad} – ${ekspresAd} ` : `${ad} `;
+  span.append(document.createTextNode(anaMetin));
+  const em = document.createElement("em");
+  em.className = "tur-etiket";
+  em.textContent = `(${hatTur})`;
+  span.append(em);
+  return span;
 }
 
 function sehirKutusu(etiketMetni){
-  const sel = el("select", {"aria-label": etiketMetni + " şehri seçin"});
-  sel.append(el("option", {value:"", text:"Şehir seçin..."}));
-  SEHIRLER.forEach(([ad, s]) => {
-    const opt = el("option", {value:ad, text: `${ad} (${saat(s)})`});
-    if (ad === seciliSehir) opt.selected = true;
-    sel.append(opt);
+  const liste = aktifSehirListesi();
+  const bulunan = liste.find(x => x[0] === seciliSehir);
+
+  const sarici = el("div", {class: "sehir-secici-sarici"});
+  const tetikleyici = el("button", {
+    type: "button",
+    class: "sehir-tetikleyici",
+    "aria-haspopup": "listbox",
+    "aria-expanded": "false",
+    "aria-label": etiketMetni + " şehri seçin"
   });
-  sel.addEventListener("change", e => {
-    seciliSehir = e.target.value;
+
+  if (bulunan) {
+    tetikleyici.append(sehirEtiketiOlustur(bulunan));
+  } else {
+    tetikleyici.textContent = turistikMod ? "Turistik rota seçin..." : "Şehir seçin...";
+  }
+
+  const acilirListe = el("div", {class: "sehir-liste", role: "listbox"});
+
+  const bosSecenek = el("button", {
+    type: "button",
+    class: "sehir-secenek",
+    role: "option",
+    "aria-selected": String(!bulunan),
+    text: turistikMod ? "Turistik rota seçin..." : "Şehir seçin..."
+  });
+  bosSecenek.addEventListener("click", () => {
+    seciliSehir = "";
     gosterilen = ADIM;
     guncelle();
   });
+  acilirListe.append(bosSecenek);
 
-  const bulunan = SEHIRLER.find(x => x[0] === seciliSehir);
-  const altYazi = bulunan ? `Tek yön yaklaşık ${saat(bulunan[1])}` : "Kütüphane Ankara Garı'ndadır";
+  liste.forEach(kayit => {
+    const [ad] = kayit;
+    const secenekBtn = el("button", {
+      type: "button",
+      class: "sehir-secenek",
+      role: "option",
+      "aria-selected": String(ad === seciliSehir)
+    });
+    secenekBtn.append(sehirEtiketiOlustur(kayit));
+    secenekBtn.addEventListener("click", () => {
+      seciliSehir = ad;
+      gosterilen = ADIM;
+      guncelle();
+    });
+    acilirListe.append(secenekBtn);
+  });
+
+  tetikleyici.addEventListener("click", e => {
+    e.stopPropagation();
+    const acikMi = acilirListe.classList.toggle("acik");
+    tetikleyici.setAttribute("aria-expanded", String(acikMi));
+  });
+
+  sarici.append(tetikleyici, acilirListe);
+
+  const altBilgiEl = el("span", {class: "alt-bilgi"});
+  if (bulunan) {
+    altBilgiEl.append(document.createTextNode("Sefer türü: "));
+    const em = document.createElement("em");
+    em.textContent = bulunan[2];
+    altBilgiEl.append(em);
+  } else {
+    altBilgiEl.textContent = "Kütüphane Ankara Garı'ndadır";
+  }
 
   return el("div", {class:"durak-kutu"},
     el("span", {class:"etiket", text:etiketMetni}),
-    sel,
-    el("span", {class:"alt-bilgi", text:altYazi})
+    sarici,
+    altBilgiEl
   );
 }
+
+document.addEventListener("click", () => {
+  document.querySelectorAll(".sehir-liste.acik").forEach(l => l.classList.remove("acik"));
+});
 
 function guzergahCiz(){
   guzergahEl.replaceChildren();
@@ -730,6 +1007,11 @@ function kapakOlustur(k) {
 
   if (k.gorsel) {
     const img = el("img", {src: k.gorsel, alt: k.ad + " kapak görseli", loading: "lazy"});
+    img.addEventListener("load", () => {
+      if (img.naturalWidth <= 2 || img.naturalHeight <= 2) {
+        kapakAlan.replaceChildren(yedek);
+      }
+    });
     img.addEventListener("error", () => {
       kapakAlan.replaceChildren(yedek);
     });
@@ -768,20 +1050,34 @@ function kart(k, yolculuk){
 
 function goster(){
   sonuc.replaceChildren();
-  const bulunan = SEHIRLER.find(x => x[0] === seciliSehir);
+  const listeKaynak = aktifSehirListesi();
+  const bulunan = listeKaynak.find(x => x[0] === seciliSehir);
   if (!bulunan) {
-    sonuc.append(el("div", {class:"bos", text:"Önerileri görmek için yukarıdan bir şehir seçin."}));
+    sonuc.append(el("div", {
+      class:"bos",
+      text: turistikMod
+        ? "Önerileri görmek için yukarıdan bir turistik tren rotası seçin."
+        : "Önerileri görmek için yukarıdan bir şehir seçin."
+    }));
     return;
   }
 
-  const [ad, tekYonSure] = bulunan;
+  const [ad, tekYonSure, hatTur, ekspresAd] = bulunan;
   const toplamSure = gidisDonus ? tekYonSure * 2 : tekYonSure;
   const kalkis = yonTers ? ad : "Ankara";
   const varis  = yonTers ? "Ankara" : ad;
   const tipMetni = gidisDonus ? "gidiş-dönüş" : "tek yön";
+  const rotaBaslik = ekspresAd ? `${ekspresAd}: ${kalkis} – ${varis}` : `${kalkis} – ${varis}`;
+
+  const baslikEl = el("h2");
+  baslikEl.append(document.createTextNode(`${rotaBaslik} (${tipMetni}, `));
+  const em = document.createElement("em");
+  em.textContent = hatTur;
+  baslikEl.append(em);
+  baslikEl.append(document.createTextNode(`) yaklaşık ${saat(toplamSure)} sürer`));
 
   const {liste, hepsi} = oner(toplamSure);
-  sonuc.append(el("h2", {text: `${kalkis} – ${varis} (${tipMetni}) yaklaşık ${saat(toplamSure)} sürer`}));
+  sonuc.append(baslikEl);
   sonuc.append(el("p", {class:"not", text: hepsi
     ? "Yolculuğunuzda bitirebileceğiniz kitaplar, süreyi en iyi dolduranlardan başlayarak sıralandı."
     : "Bu yolculukta bitecek kadar kısa bir kitap yok. Şu kitaplara başlayabilirsiniz:"}));
@@ -809,10 +1105,16 @@ document.querySelectorAll('input[name="yolculukTipi"]').forEach(r => {
 
 /* Beni Oku Tablosu */
 const sehirTabloGovde = document.getElementById("sehirTabloGovde");
-SEHIRLER.forEach(([ad, tekSure, hat]) => {
+[...STANDART_SEHIRLER, ...TURISTIK_SEHIRLER].forEach(([ad, tekSure, hat, ekspresAd]) => {
+  const adEtiketi = ekspresAd ? `${ad} (${ekspresAd})` : ad;
+  const hatHucre = el("td");
+  const em = document.createElement("em");
+  em.textContent = hat;
+  hatHucre.append(em);
+
   sehirTabloGovde.append(el("tr", {},
-    el("td", {text: ad}),
-    el("td", {text: hat}),
+    el("td", {text: adEtiketi}),
+    hatHucre,
     el("td", {text: saat(tekSure)}),
     el("td", {text: saat(tekSure * 2)})
   ));
