@@ -4,7 +4,6 @@ scraper.py ile veriyi yeniledikten sonra bir kez çalıştırın:  python build_
 """
 import json
 from pathlib import Path
-
 import pandas as pd
 
 KOK = Path(__file__).resolve().parent
@@ -14,17 +13,19 @@ df = pd.read_csv(KOK / "data" / "gar_kutuphanesi_veriseti.csv")
 df[SURE] = pd.to_numeric(df[SURE], errors="coerce")
 df = df[df[SURE] > 0]
 
-kitaplar = [
-    {
-        "ad": r["Kitap Adı"],
-        "yazar": r["Yazar"] if pd.notna(r["Yazar"]) else "",
-        "dil": r["Kitap Dili"] if pd.notna(r["Kitap Dili"]) else "",
+kitaplar = []
+for _, r in df.iterrows():
+    kayit = {
+        "ad": str(r["Kitap Adı"]).strip(),
+        "yazar": str(r["Yazar"]).strip() if pd.notna(r["Yazar"]) else "",
+        "dil": str(r["Kitap Dili"]).strip() if pd.notna(r["Kitap Dili"]) else "TR",
         "sayfa": int(r["Sayfa Sayısı"]),
         "sure": float(r[SURE]),
-        "link": r["Link"],
+        "link": str(r["Link"]).strip() if pd.notna(r["Link"]) else "",
+        "gorsel": str(r["Görsel"]).strip() if "Görsel" in df.columns and pd.notna(r["Görsel"]) else "",
+        "ozet": str(r["Özet"]).strip() if "Özet" in df.columns and pd.notna(r["Özet"]) else "",
     }
-    for _, r in df.iterrows()
-]
+    kitaplar.append(kayit)
 
 cikti = KOK / "site" / "kitaplar.json"
 cikti.write_text(json.dumps(kitaplar, ensure_ascii=False, indent=1), encoding="utf-8")
