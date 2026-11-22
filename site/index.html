@@ -24,6 +24,9 @@
   --basari-ton:#e8f5ee;
   --hata:#b42318;
   --hata-ton:#fef3f2;
+  --paket-yesil:#15803d;
+  --paket-yesil-ton:#ecfdf3;
+  --paket-yesil-golge:rgba(21,128,61,.16);
   --a1:8px; --a2:16px; --a3:24px; --a4:32px; --a5:48px; --a6:64px;
 }
 @media (prefers-color-scheme:dark){
@@ -34,6 +37,9 @@
     --golge:rgba(0,0,0,.45);
     --basari:#3dd598; --basari-ton:#163026;
     --hata:#f97066; --hata-ton:#331b1b;
+    --paket-yesil:#22c55e;
+    --paket-yesil-ton:#122b1d;
+    --paket-yesil-golge:rgba(34,197,94,.22);
   }
 }
 
@@ -373,6 +379,35 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
 .not{margin:0 0 var(--a3);color:var(--soluk);max-width:64ch}
 .bos{padding:var(--a3);border:1.5px dashed var(--cizgi);border-radius:10px;color:var(--soluk);background:var(--kart)}
 
+/* Yeşil Çoklu Ödünç Alma Bilgilendirme Kutusu */
+.yesil-bilgi-kutu{
+  position:relative;
+  background:var(--paket-yesil-ton);
+  border:1.5px solid var(--paket-yesil);
+  border-left-width:6px;
+  border-radius:10px;
+  padding:14px 18px;
+  margin:14px 0 24px;
+  color:var(--metin);
+  font-size:.95rem;
+  line-height:1.55;
+  overflow:hidden;
+}
+.yesil-bilgi-kutu::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:34px;
+  height:34px;
+  background:linear-gradient(225deg, var(--paket-yesil) 48%, transparent 50%);
+  pointer-events:none;
+}
+.yesil-bilgi-kutu strong{
+  color:var(--paket-yesil);
+  font-weight:700;
+}
+
 .kitap{
   background:var(--kart);
   border:1px solid var(--cizgi);
@@ -383,6 +418,83 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
   display:flex;
   gap:20px;
   align-items:flex-start;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Yeşil Çerçeveli Çoklu Kitap Kartı */
+.kitap.yesil-cerceve{
+  border:2px solid var(--paket-yesil);
+  box-shadow:0 10px 22px -12px var(--paket-yesil-golge);
+}
+.kitap.yesil-cerceve::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:38px;
+  height:38px;
+  background:linear-gradient(135deg, var(--paket-yesil) 48%, transparent 50%);
+  z-index:2;
+  pointer-events:none;
+}
+.yesil-rozet{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:var(--paket-yesil-ton);
+  color:var(--paket-yesil);
+  border:1px solid var(--paket-yesil);
+  font-size:.76rem;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+.kitap.yesil-cerceve .cubuk{background:var(--paket-yesil-ton)}
+.kitap.yesil-cerceve .cubuk i{background:var(--paket-yesil)}
+
+/* Kombinasyon Grup Sarmalayıcısı */
+.kombinasyon-grup{
+  border:2px solid var(--paket-yesil);
+  border-radius:14px;
+  padding:18px 20px 6px;
+  margin:0 0 28px;
+  background:var(--kart);
+  box-shadow:0 12px 26px -14px var(--paket-yesil-golge);
+  position:relative;
+  overflow:hidden;
+}
+.kombinasyon-grup::before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:42px;
+  height:42px;
+  background:linear-gradient(225deg, var(--paket-yesil) 48%, transparent 50%);
+  pointer-events:none;
+}
+.kombinasyon-ust{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px 14px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--cizgi);
+  padding-right:26px;
+}
+.kombinasyon-baslik{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--paket-yesil);
+}
+.kombinasyon-ozet{
+  font-size:.88rem;
+  font-weight:600;
+  color:var(--metin);
 }
 
 .kapak-alan{
@@ -445,6 +557,7 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
   border-radius:8px;
   border-left:3px solid var(--abb);
 }
+.kitap.yesil-cerceve .ozet{border-left-color:var(--paket-yesil)}
 .cubuk{height:8px;background:var(--abb-ton);border-radius:4px;overflow:hidden}
 .cubuk i{display:block;height:100%;background:var(--abb);width:0;border-radius:4px;transition:width .4s ease}
 .durum{margin:8px 0 14px;font-size:.9rem;font-weight:500}
@@ -454,73 +567,13 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
 .daha{font:inherit;font-weight:600;padding:12px 24px;background:transparent;color:var(--abb);border:1.5px solid var(--abb);border-radius:10px;cursor:pointer}
 .daha:hover{background:var(--abb-ton)}
 
-/* Çoklu Kitap Okuma Paketleri */
-.paket-baslik-alan{
-  margin:32px 0 14px;
+.alt-bolum-baslik{
+  margin:36px 0 10px;
   padding-top:24px;
   border-top:1.5px solid var(--cizgi);
-}
-.paket-baslik-alan h3{margin:0 0 4px;font-size:1.25rem}
-.paket-kart{
-  background:var(--kart);
-  border:1.5px solid var(--cizgi);
-  border-radius:12px;
-  padding:20px 24px;
-  margin-bottom:20px;
-  box-shadow:0 8px 18px -12px var(--golge);
-}
-.paket-ust{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:12px;
-}
-.paket-rozet{
-  background:var(--abb-ton);
-  color:var(--abb);
+  font-size:1.2rem;
   font-weight:700;
-  font-size:.82rem;
-  padding:4px 10px;
-  border-radius:6px;
 }
-.paket-liste{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin:14px 0;
-}
-.paket-oge{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:var(--kutu);
-  padding:10px 14px;
-  border-radius:8px;
-  border:1px solid var(--cizgi);
-}
-.paket-oge-kapak{
-  width:42px;
-  min-width:42px;
-  height:62px;
-  border-radius:5px;
-  overflow:hidden;
-  background:var(--abb);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-size:.65rem;
-  font-weight:700;
-  text-align:center;
-  padding:3px;
-}
-.paket-oge-kapak img{width:100%;height:100%;object-fit:cover;display:block}
-.paket-oge-bilgi{flex:1;min-width:0}
-.paket-oge-bilgi strong{display:block;font-size:.98rem;line-height:1.3}
-.paket-oge-bilgi span{font-size:.84rem;color:var(--soluk)}
-.paket-oge a{color:var(--abb);font-weight:600;font-size:.85rem;text-decoration:none;white-space:nowrap}
-.paket-oge a:hover{text-decoration:underline}
 
 /* Genel Kart / Beni Oku / Admin Bileşenleri */
 .icerik-kart{
@@ -610,6 +663,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
   .kapak-alan{width:84px;min-width:84px;height:122px}
   .form-izgara{grid-template-columns:1fr}
   .icerik-kart{padding:20px}
+  .kombinasyon-grup{padding:14px 14px 2px}
 }
 </style>
 </head>
@@ -683,7 +737,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
       <ol>
         <li><strong>Veri Toplama (<span class="kod-etiket">scraper.py</span>):</strong> Ankara Büyükşehir Belediyesi Koha kütüphane kataloğundaki YHT Gar Kütüphanesi kayıtlarını tarayarak kitabın adını, yazarını, dilini, sayfa sayısını, kapak görselini ve 3–5 cümlelik özetini toplar. Okunma süresi, sayfa sayısının ortalama okuma hızına (<strong>saatte 40 sayfa</strong>) bölünmesiyle hesaplanır.</li>
         <li><strong>Veri Dönüştürme (<span class="kod-etiket">build_json.py</span>):</strong> Toplanan CSV veri setini web arayüzünün doğrudan kullanabileceği <span class="kod-etiket">kitaplar.json</span> formatına dönüştürür.</li>
-        <li><strong>Akıllı Öneri Motoru (<span class="kod-etiket">recommender.py</span> &amp; Web Arayüzü):</strong> Seçtiğiniz şehrin tek yön veya gidiş-dönüş süresine sığan kitapları filtreler ve yolculuk süresini en verimli dolduran (en uzun ama trende bitirilebilecek) kitapları ilk sırada önerir.</li>
+        <li><strong>Akıllı Öneri Motoru (<span class="kod-etiket">recommender.py</span> &amp; Web Arayüzü):</strong> Seçtiğiniz şehrin tek yön veya gidiş-dönüş süresine sığan kitapları filtreler. Tek bir kitabın süreyi doldurmaya yetmediği uzun yolculuklarda ise birlikte okunabilecek 2–3 kitaplık yeşil çerçeveli okuma kombinasyonları önerir.</li>
       </ol>
 
       <h3>Desteklenen Hatlar ve Yaklaşık Süreler</h3>
@@ -700,7 +754,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
       <ul>
         <li>Okuma hızı sabit olarak saatte 40 sayfa kabul edilmiştir; kişisel okuma hızınıza göre süre değişebilir.</li>
         <li>Yolculuk süreleri yaklaşık değerlerdir; resmi TCDD Taşımacılık tarifesiyle doğrulanmalıdır.</li>
-        <li>Katalog tarayıcı (<span class="kod-etiket">scraper.py</span>), sunucuya yük bindirmemek için istekler arasında 1,5 saniye bekler.</li>
+        <li>Katalog tarayıcı (<span class="kod-etiket">scraper.py</span>), sunucuya yük bindirmemek için istekler arasında 2,5 saniye bekler.</li>
       </ul>
     </article>
   </div>
@@ -868,44 +922,39 @@ function yazarDuzelt(y){
 }
 function yuzde(toplam, yolculuk){ return Math.min(100, Math.floor(yolculuk / toplam * 100)); }
 
-function paketleriOlustur(yolculuk, siganListe) {
-  // Tek başına yolu en az %65 dolduran kitap yoksa veya uzun yolculuklarda paket üret
-  const hedefMin = yolculuk * 0.60; // Örn: 20 saatin en az 12 saati
-  const hedefMax = yolculuk;        // Yolculuk süresini aşmasın
+function kombinasyonlariBul(yolculuk, siganListe) {
   const adaylar = [...siganListe].sort((a, b) => b.sure - a.sure);
-  const paketler = [];
+  const kombinasyonlar = [];
   const kullanilanImzalar = new Set();
 
-  // En fazla 3 kitaplık kombinasyonlar dene (en uzun kitaplardan başlayarak)
-  for (let i = 0; i < Math.min(adaylar.length, 25); i++) {
+  for (let i = 0; i < Math.min(adaylar.length, 30); i++) {
     const secilen = [adaylar[i]];
     let toplam = adaylar[i].sure;
 
     for (let j = i + 1; j < adaylar.length; j++) {
-      if (secilen.length >= 3) break;
+      if (secilen.length >= 4) break;
       const aday = adaylar[j];
-      // Aynı yazarın kitabını üst üste koymamaya çalış
       if (secilen.some(x => x.yazar && x.yazar === aday.yazar)) continue;
 
-      if (toplam + aday.sure <= hedefMax) {
+      if (toplam + aday.sure <= yolculuk) {
         secilen.push(aday);
         toplam = Math.round((toplam + aday.sure) * 10) / 10;
       }
-      if (toplam >= yolculuk * 0.85) break; // %85 doluluk idealdir
+      if (toplam >= yolculuk * 0.92) break;
     }
 
-    if (secilen.length >= 2 && toplam >= hedefMin && toplam <= hedefMax) {
+    if (secilen.length >= 2 && toplam >= yolculuk * 0.70 && toplam <= yolculuk) {
       const imza = secilen.map(k => k.ad).sort().join("|");
       if (!kullanilanImzalar.has(imza)) {
         kullanilanImzalar.add(imza);
         const toplamSayfa = secilen.reduce((acc, k) => acc + k.sayfa, 0);
-        paketler.push({ kitaplar: secilen, toplamSure: toplam, toplamSayfa });
+        kombinasyonlar.push({ kitaplar: secilen, toplamSure: toplam, toplamSayfa });
       }
     }
-    if (paketler.length >= 4) break;
+    if (kombinasyonlar.length >= 4) break;
   }
 
-  return paketler.sort((a, b) => b.toplamSure - a.toplamSure);
+  return kombinasyonlar.sort((a, b) => b.toplamSure - a.toplamSure);
 }
 
 function oner(yolculuk) {
@@ -916,22 +965,22 @@ function oner(yolculuk) {
   if (!sigan.length) {
     return {
       tekli: [...kitaplar].sort((a, b) => a.sure - b.sure),
-      paketler: [],
+      kombinasyonlar: [],
       hepsi: false,
-      paketOncelikli: false
+      cokluMod: false
     };
   }
 
   const enUzunTekli = sigan[0].sure;
-  // Tek bir kitap yolculuğun %55'ini bile dolduramıyorsa (örn. 26 saatlik Kars yolunda max 14.5 saatlik kitap varsa)
-  const paketOncelikli = enUzunTekli < yolculuk * 0.55;
-  const paketler = yolculuk >= 6 ? paketleriOlustur(yolculuk, sigan) : [];
+  // Tek bir kitap yolculuğun en az %85'ini dolduramıyorsa (ör. 26 saatte en uzun kitap 23.6 saatse veya 52 saatlik gidiş-dönüşte)
+  const tekKitapYetersiz = enUzunTekli < yolculuk * 0.85;
+  const kombinasyonlar = tekKitapYetersiz ? kombinasyonlariBul(yolculuk, sigan) : [];
 
   return {
     tekli: sigan,
-    paketler,
+    kombinasyonlar,
     hepsi: true,
-    paketOncelikli
+    cokluMod: tekKitapYetersiz && kombinasyonlar.length > 0
   };
 }
 
@@ -1171,12 +1220,18 @@ function kapakOlustur(k) {
   return kapakAlan;
 }
 
-function kart(k, yolculuk){
+function kart(k, yolculuk, yesilMod = false, siraEtiketi = "") {
   const y = yuzde(k.sure, yolculuk);
   const tam = y === 100;
   const kisaOzet = ozetKisalt(k.ozet);
 
-  const govde = el("div", {class: "kitap-govde"},
+  const govde = el("div", {class: "kitap-govde"});
+
+  if (yesilMod && siraEtiketi) {
+    govde.append(el("span", {class: "yesil-rozet", text: siraEtiketi}));
+  }
+
+  govde.append(
     el("h3", {text:k.ad}),
     el("p", {class:"yazar", text:yazarDuzelt(k.yazar)})
   );
@@ -1194,52 +1249,7 @@ function kart(k, yolculuk){
     )
   );
 
-  return el("article", {class:"kitap"}, kapakOlustur(k), govde);
-}
-
-function paketKartiOlustur(paket, yolculuk, siraNo) {
-  const doluluk = Math.min(100, Math.round((paket.toplamSure / yolculuk) * 100));
-  const kartEl = el("article", { class: "paket-kart" });
-
-  const ust = el("div", { class: "paket-ust" },
-    el("span", { class: "paket-rozet", text: `Okuma Paketi #${siraNo} • ${paket.kitaplar.length} Kitap` }),
-    el("strong", { text: `Toplam ${paket.toplamSayfa} sayfa • ${saat(paket.toplamSure)} (%${doluluk} doluluk)` })
-  );
-
-  const listeEl = el("div", { class: "paket-liste" });
-  paket.kitaplar.forEach(k => {
-    const miniKapak = el("div", { class: "paket-oge-kapak" });
-    if (k.gorsel) {
-      const img = el("img", { src: k.gorsel, alt: k.ad, loading: "lazy" });
-      img.addEventListener("error", () => { miniKapak.textContent = k.ad.slice(0, 18); });
-      miniKapak.append(img);
-    } else {
-      miniKapak.textContent = k.ad.slice(0, 18);
-    }
-
-    const oge = el("div", { class: "paket-oge" },
-      miniKapak,
-      el("div", { class: "paket-oge-bilgi" },
-        el("strong", { text: k.ad }),
-        el("span", { text: `${yazarDuzelt(k.yazar)} • ${k.sayfa} sayfa (${saat(k.sure)})` })
-      ),
-      k.link ? el("a", { href: k.link, target: "_blank", rel: "noopener", text: "Katalog" }) : el("span")
-    );
-    listeEl.append(oge);
-  });
-
-  kartEl.append(
-    ust,
-    el("div", { class: "cubuk" }, el("i", { style: "width:" + doluluk + "%" })),
-    listeEl,
-    el("p", {
-      class: "durum",
-      style: "margin-bottom:0",
-      text: `${saat(yolculuk)} süren yolculuğunuzun yaklaşık ${saat(paket.toplamSure)} kadarını bu ${paket.kitaplar.length} kitapla tamamlayabilirsiniz.`
-    })
-  );
-
-  return kartEl;
+  return el("article", {class: yesilMod ? "kitap yesil-cerceve" : "kitap"}, kapakOlustur(k), govde);
 }
 
 function goster() {
@@ -1248,7 +1258,7 @@ function goster() {
   const bulunan = listeKaynak.find(x => x[0] === seciliSehir);
   if (!bulunan) {
     sonuc.append(el("div", {
-      class: "bos",
+      class:"bos",
       text: turistikMod
         ? "Önerileri görmek için yukarıdan bir turistik tren rotası seçin."
         : "Önerileri görmek için yukarıdan bir şehir seçin."
@@ -1269,52 +1279,67 @@ function goster() {
   em.textContent = hatTur;
   baslikEl.append(em);
   baslikEl.append(document.createTextNode(`) yaklaşık ${saat(toplamSure)} sürer`));
-
-  const { tekli, paketler, hepsi, paketOncelikli } = oner(toplamSure);
   sonuc.append(baslikEl);
 
-  const paketBolumuOlustur = () => {
-    const bolum = el("div", { class: "paket-baslik-alan" });
-    bolum.append(
-      el("h3", { text: "Uzun Yolculuk İçin Çoklu Kitap Paketleri" }),
-      el("p", {
-        class: "not",
-        text: `Tek bir kitap bu rotayı tamamen doldurmaya yetmediğinde, yolculuk sürenizin %60–%100'ünü verimli dolduran 2–3 kitaplık kombinasyonlar:`
-      })
-    );
-    paketler.forEach((p, idx) => bolum.append(paketKartiOlustur(p, toplamSure, idx + 1)));
-    return bolum;
-  };
+  const { tekli, kombinasyonlar, hepsi, cokluMod } = oner(toplamSure);
 
-  const tekliBolumuOlustur = () => {
-    const bolum = el("div");
-    bolum.append(el("p", {
-      class: "not",
-      text: hepsi
-        ? "Yolculuğunuzda tek başına bitirebileceğiniz kitaplar, süreyi en iyi dolduranlardan başlayarak sıralandı:"
-        : "Bu yolculukta bitecek kadar kısa bir kitap yok. Şu kitaplara başlayabilirsiniz:"
-    }));
-    tekli.slice(0, gosterilen).forEach(k => bolum.append(kart(k, toplamSure)));
+  if (cokluMod) {
+    const enIyiKombinasyon = kombinasyonlar[0];
+    const kitapAdedi = enIyiKombinasyon.kitaplar.length;
+
+    // Kullanıcının talep ettiği üst yeşil bilgilendirme kutusu
+    const bilgiKutu = el("div", { class: "yesil-bilgi-kutu", role: "status" });
+    bilgiKutu.append(
+      document.createTextNode(`Bu yolculuğun tamamını tek başına dolduracak uzunlukta bir kitabımız bulunmadığı için, yolculuğunuz süresince bitirmek üzere `),
+      el("strong", { text: `${kitapAdedi} adet kitap` }),
+      document.createTextNode(` ödünç alabilirsiniz. Birlikte ödünç alınacak kitaplar `),
+      el("strong", { text: "yeşil renk ile çerçevelendirilmiştir." })
+    );
+    sonuc.append(bilgiKutu);
+
+    // Önerilen yeşil çerçeveli okuma kombinasyonları
+    kombinasyonlar.forEach((komb, idx) => {
+      const doluluk = Math.min(100, Math.round((komb.toplamSure / toplamSure) * 100));
+      const grupEl = el("div", { class: "kombinasyon-grup" });
+      grupEl.append(
+        el("div", { class: "kombinasyon-ust" },
+          el("span", { class: "kombinasyon-baslik", text: `Yeşil Okuma Seçeneği #${idx + 1} (${komb.kitaplar.length} Kitap Birlikte)` }),
+          el("span", { class: "kombinasyon-ozet", text: `Toplam ${komb.toplamSayfa} sayfa • ${saat(komb.toplamSure)} (%${doluluk} doluluk)` })
+        )
+      );
+      komb.kitaplar.forEach((k, kIdx) => {
+        grupEl.append(kart(k, toplamSure, true, `${idx + 1}. Seçenek • ${kIdx + 1}. Kitap`));
+      });
+      sonuc.append(grupEl);
+    });
+
+    // Alt bölümde tekil kitap listesi de erişilebilir kalsın
+    sonuc.append(
+      el("h3", { class: "alt-bolum-baslik", text: "Tek Başına Bitirebileceğiniz Kitaplar" }),
+      el("p", { class: "not", text: "Yolculuğun bir bölümünde tek başına bitirebileceğiniz en uzun kitaplar:" })
+    );
+    tekli.slice(0, gosterilen).forEach(k => sonuc.append(kart(k, toplamSure, false)));
     if (tekli.length > gosterilen) {
       const d = el("button", { class: "daha", type: "button", text: "Daha fazla tekil kitap göster (" + (tekli.length - gosterilen) + " kitap daha)" });
       d.addEventListener("click", () => { gosterilen += ADIM; goster(); });
-      bolum.append(d);
+      sonuc.append(d);
     }
-    return bolum;
-  };
+    return;
+  }
 
-  // Uzun rotalarda (Kars, gidiş-dönüş vb.) önce çoklu paketleri, altında tekil kitapları göster
-  if (paketOncelikli && paketler.length > 0) {
-    sonuc.append(paketBolumuOlustur());
-    const tekliBaslik = el("div", { class: "paket-baslik-alan" },
-      el("h3", { text: "Tek Başına Bitirebileceğiniz Kitaplar" })
-    );
-    sonuc.append(tekliBaslik, tekliBolumuOlustur());
-  } else {
-    sonuc.append(tekliBolumuOlustur());
-    if (paketler.length > 0) {
-      sonuc.append(paketBolumuOlustur());
-    }
+  // Standart tek kitap modu
+  sonuc.append(el("p", {
+    class: "not",
+    text: hepsi
+      ? "Yolculuğunuzda bitirebileceğiniz kitaplar, süreyi en iyi dolduranlardan başlayarak sıralandı."
+      : "Bu yolculukta bitecek kadar kısa bir kitap yok. Şu kitaplara başlayabilirsiniz:"
+  }));
+
+  tekli.slice(0, gosterilen).forEach(k => sonuc.append(kart(k, toplamSure, false)));
+  if (tekli.length > gosterilen) {
+    const d = el("button", { class: "daha", type: "button", text: "Daha fazla göster (" + (tekli.length - gosterilen) + " kitap daha)" });
+    d.addEventListener("click", () => { gosterilen += ADIM; goster(); });
+    sonuc.append(d);
   }
 }
 
