@@ -13,6 +13,28 @@ Ankara Büyükşehir Belediyesi'nin **Ankara YHT Gar Kütüphanesi** kataloğund
 * **Zengin Kitap Kartları:** Kitap kapak görselleri (eksik kapaklar için otomatik tipografik kapak tasarımı), 3–5 cümlelik özetler, okunma yüzdesi çubuğu ve katalog bağlantıları yer alır.
 * **Tarayıcı Tabanlı Admin Paneli & Beni Oku Sekmesi:** Web arayüzü üzerinden CSV/JSON dosyası yükleme, tekil kitap ekleme/silme, güncel `kitaplar.json` çıktısını indirme ve proje dokümantasyonunu görüntüleme imkânı sunar.
 
+## Ekran Görüntüleri
+
+### 1. Ana Sayfa ve Kitap Önerileri
+Güzergah ve yolculuk tipi seçildiğinde kitap kapakları, kısa özetler ve yolculuk süresine göre okunma yüzdeleri listelenir.
+
+![Ana Sayfa ve Kitap Önerileri](screenshots/ana-sayfa.png)
+
+### 2. Uzun Rotalar İçin Çoklu Kitap Önerisi (Yeşil Çerçeve)
+Tek bir kitabın süreyi doldurmaya yetmediği uzun yolculuklarda birlikte ödünç alınabilecek kitap paketleri yeşil çerçeve ile gruplanır.
+
+![Çoklu Kitap Önerisi](screenshots/yesil-paket.png)
+
+### 3. İade Noktası ve Harita Yönlendirmesi (Konya)
+Varış noktası Konya seçildiğinde kütüphane iade adresi ve doğrudan Google Haritalar yol tarifi bağlantısı gösterilir.
+
+![Konya İade Noktası](screenshots/konya-iade.png)
+
+### 4. Turistik Tren Modu
+Turistik Tren seçeneği aktif edildiğinde kırmızı kış teması ve TCDD Turistik Ekspres rotaları açılır.
+
+![Turistik Tren Modu](screenshots/turistik-tren.png)
+
 ## Nasıl Çalışır?
 
 1. **Veri Toplama (`scraper.py`):** Ankara Büyükşehir Belediyesi Koha kütüphane kataloğundaki YHT Gar Kütüphanesi kayıtlarını tarayarak kitabın adını, yazarını, dilini, sayfa sayısını, kapak görselini ve 3–5 cümlelik kısaltılmış özetini toplar[cite: 25]. Okunma süresi, sayfa sayısının sabit bir okuma hızına (**saatte 40 sayfa**) bölünmesiyle hesaplanır[cite: 25].
