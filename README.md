@@ -1,91 +1,25 @@
-# Ankara Train Book Recommender
+# Ankara Train Book Recommender (Trende Ne Okusam?)
 
-*Picks books from the Ankara YHT Station Library catalog that fit the length of your train journey from Ankara. Python, web scraping, pandas.*
+*Picks single books or multi-book reading bundles from the Ankara YHT Station Library catalog that fit the length of your train journey from Ankara — including Turistik Tren routes, return points, and an admin catalog manager. Python, web scraping, pandas, HTML/CSS/JS.*
 
-Ankara Büyükşehir Belediyesi'nin YHT Gar Kütüphanesi kataloğundan kitap bilgilerini toplar (`scraper.py`) ve seçtiğiniz şehre olan tren yolculuğunuzun süresine göre okuyabileceğiniz kitapları önerir (`recommender.py`). 
+Ankara Büyükşehir Belediyesi'nin **Ankara YHT Gar Kütüphanesi** kataloğundan kitap bilgilerini, kapak görsellerini ve özetlerini toplar (`scraper.py`); seçtiğiniz şehre olan tren yolculuğunuzun süresine göre okuyabileceğiniz kitapları hem komut satırında (`recommender.py`) hem de zengin özellikli statik web arayüzünde (`site/index.html`) önerir[cite: 23, 24, 26, 27, 30].
 
-**Ödünç aldığınız kitaplar sadece ABB bünyesindeki kütüphanelere geri iade edilebilir.**
+## Öne Çıkan Özellikler
 
-## Nasıl çalışır?
+* **Tek Yön & Gidiş-Dönüş ve Çift Yönlü Güzergah:** Ankara çıkışlı veya Ankara varışlı (Nereden / Nereye yön değiştirme butonlu) tek yön ve gidiş-dönüş yolculuk sürelerini otomatik hesaplar.
+* **Turistik Tren Modu:** Standart YHT ve konvansiyonel hatların (Eskişehir, Konya, Sivas, Karaman, İstanbul, Kayseri, Adana, İzmir, Erzurum, Diyarbakır, Kars) yanı sıra **Turistik Tren** (Turistik Doğu Ekspresi, Diyarbakır Ekspresi, Tatvan Treni, Karaelmas Ekspresi, Tuz Ekspresi) rotalarını kış temasıyla sunar[cite: 24, 27].
+* **Çoklu Kitap Önerisi (Yeşil Çerçeve Sistemi):** Kars (26 saat), Turistik Doğu Ekspresi (32 saat) veya gidiş-dönüş gibi tek bir kitabın süreyi doldurmaya yetmediği uzun yolculuklarda, yolculuk süresini en verimli dolduran **2–4 kitaplık okuma paketlerini** yeşil çerçeve ve üst bilgilendirme kutusuyla öne çıkarır[cite: 27, 28].
+* **İade Noktası ve Harita Yönlendirmesi:** Konya rotası seçildiğinde kütüphane iade noktası adresini (*Konevi, Alay Cd. No:9, 42040 Meram/Konya*) ve doğrudan Google Haritalar yol tarifi bağlantısını gösterir.
+* **Zengin Kitap Kartları:** Kitap kapak görselleri (eksik kapaklar için otomatik tipografik kapak tasarımı), 3–5 cümlelik özetler, okunma yüzdesi çubuğu ve katalog bağlantıları yer alır[cite: 26, 27].
+* **Tarayıcı Tabanlı Admin Paneli & Beni Oku Sekmesi:** Web arayüzü üzerinden CSV/JSON dosyası yükleme, tekil kitap ekleme/silme, güncel `kitaplar.json` çıktısını indirme ve proje dokümantasyonunu görüntüleme imkânı sunar[cite: 27].
 
-1. `scraper.py`, katalogdaki YHT Gar Kütüphanesi kitaplarının adını, yazarını, dilini ve sayfa sayısını toplar. Okunma süresi, sayfa sayısının sabit bir okuma hızına (saatte 40 sayfa) bölünmesiyle tahmin edilir.
-2. `recommender.py`, veriyi okur ve seçilen şehrin yaklaşık yolculuk süresine sığan kitapları önerir. Yolculuğa en iyi sığanlar (en uzun ama bitebilecek olanlar) öne çıkar. Hiçbir kitap sığmıyorsa en kısa kitaplar önerilir ve yolculukta yüzde kaçının okunabileceği gösterilir.
+## Nasıl Çalışır?
+
+1. **Veri Toplama (`scraper.py`):** Ankara Büyükşehir Belediyesi Koha kütüphane kataloğundaki YHT Gar Kütüphanesi kayıtlarını tarayarak kitabın adını, yazarını, dilini, sayfa sayısını, kapak görselini ve 3–5 cümlelik kısaltılmış özetini toplar[cite: 26]. Okunma süresi, sayfa sayısının sabit bir okuma hızına (**saatte 40 sayfa**) bölünmesiyle hesaplanır ve mevcut veri setini koruyarak belirli saat aralıklarında yeni kitaplar ekleyebilir[cite: 26].
+2. **Web Verisi Üretimi (`build_json.py`):** Toplanan `data/gar_kutuphanesi_veriseti.csv` dosyasını web arayüzünün okuyabileceği `site/kitaplar.json` formatına dönüştürür[cite: 23].
+3. **Öneri Motoru (`recommender.py` & `site/index.html`):** Seçilen rotanın yolculuk süresine sığan kitapları süreyi en iyi dolduranlardan başlayarak sıralar[cite: 24, 27]. Tek bir kitap sürenin %85'ini dolduramıyorsa birlikte bitirilebilecek çoklu kitap kombinasyonları oluşturur[cite: 27].
 
 ## Kurulum
 
 ```bash
 pip install -r requirements.txt
-```
-
-## Kullanım
-
-```bash
-python scraper.py        # veriyi yeniden toplar -> data/gar_kutuphanesi_veriseti.csv
-python recommender.py    # şehri seçip öneri alın
-```
-
-Örnek çıktı (`istanbul` yazıldığında):
-
-```
-İstanbul yolculuğunuz yaklaşık 5.0 saat sürecektir.
-
-📖 Kitap Önerileriniz:
-Trende tamamen bitirebileceğiniz kitaplar:
-- Acı çekirdek | Yazar: Yener, Aylin İşcan
-  (Toplam 5.0 saat. Yolculukta rahatlıkla bitirebilirsiniz.)
-...
-```
-
-## Proje yapısı
-
-```
-├── scraper.py                         katalogdan veri toplar
-├── recommender.py                     öneri programı
-├── data/gar_kutuphanesi_veriseti.csv  örnek veri (50 kitap)
-├── tests/test_recommender.py          otomatik testler
-└── requirements.txt
-```
-
-## Veri seti sütunları
-
-`Kitap Adı`, `Yazar`, `Kitap Dili`, `Sayfa Sayısı`, `Tahmini Okunma Süresi (Saat)`, `Konum`, `Link`
-
-## Test senaryoları
-
-Otomatik testleri çalıştırmak için:
-
-```bash
-pip install pytest
-pytest
-```
-
-Elle yapılan test senaryoları ve sonuçları:
-
-| No | Girdi | Beklenen sonuç | İlk sürümde | Şimdi |
-|----|-------|----------------|-------------|-------|
-| TS-01 | `istanbul` (küçük harf) | İstanbul için öneriler | Hiçbir çıktı vermeden sonlandı | ✅ Geçti |
-| TS-02 | `izmir` (küçük harf) | İzmir için öneriler | Hiçbir çıktı vermeden sonlandı | ✅ Geçti |
-| TS-03 | `Atlantis` (listede yok) | Uyarı mesajı, tekrar sorma | Hiçbir çıktı vermeden sonlandı | ✅ Geçti |
-| TS-04 | `eskisehir`, `diyarbakir` (Türkçe karaktersiz) | Şehir eşleşir | Denenmedi | ✅ Geçti |
-| TS-05 | `Kars` ve `İstanbul` | Farklı yolculuk süresine uygun, farklı öneriler | İkisinde de aynı en kısa kitaplar geliyordu | ✅ Geçti |
-| TS-06 | CSV'de `4,8` gibi virgüllü ondalık | Açık hata mesajı | Sessizce düzeltmeye çalışıyordu | ✅ Geçti |
-
-## Bulunan ve düzeltilen hatalar
-
-- **Büyük/küçük harf ve Türkçe `i`/`İ` sorunu:** Python'un `capitalize()` metodu `istanbul` yazısını `Istanbul` yaptığı için şehir listede bulunamıyordu. Türkçe kurallarına uygun küçültme ve Türkçe karakter eşleştirmesi eklendi.
-- **Geçersiz girdide sessiz sonlanma:** Listede olmayan şehirde program hiçbir şey yazmadan kapanıyordu. Artık uyarı veriyor ve yeniden soruyor.
-- **Hep aynı öneriler:** Yolculuk süresi ne olursa olsun en kısa kitaplar öneriliyordu. Artık yolculuğa en iyi sığan kitaplar öneriliyor.
-- **`Kitap Dili` sütunu:** Veri toplama ilk sürümünde sütunun tamamı "Bilinmiyor" çıkıyordu. HTML seçicisi düzeltildi.
-- **Kitap adında yazar adı:** Adlar `Başlık / Yazar` biçiminde geliyordu. Başlık yazar kısmından ayrıldı.
-- **Ondalık ayracı:** Okunma süresi CSV'de virgülle (`4,8`) tutuluyordu. Artık noktayla yazılıyor ve virgüllü veri açık bir hata mesajıyla bildiriliyor.
-- **Dosya yolu:** Programlar artık hangi klasörden çalıştırılırsa çalıştırılsın doğru dosyayı buluyor.
-
-## Sınırlamalar
-
-- Okuma hızı sabit (saatte 40 sayfa), herkes için geçerli değildir.
-- Yolculuk süreleri yaklaşık değerlerdir, resmi tarifeyle doğrulanmalıdır. Kayseri ve sonrasındaki hatlar YHT değil, konvansiyonel trenlerdir.
-- Örnek veri 50 kitaptan oluşur, kütüphanenin tamamını kapsamaz.
-
-## Not
-
-Veri toplayıcı istekler arasında 1,5 saniye bekler. Katalog sahibinin kullanım koşullarına uyun ve gereksiz yere sık çalıştırmayın.
