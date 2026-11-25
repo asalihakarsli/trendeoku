@@ -277,6 +277,64 @@ main{padding:0 0 var(--a6)}
   text-overflow:ellipsis;
 }
 .durak-kutu .alt-bilgi em{font-style:italic;font-weight:500;color:var(--abb)}
+.durak-kutu .alt-bilgi a{
+  color:var(--abb);
+  font-weight:600;
+  text-decoration:none;
+}
+.durak-kutu .alt-bilgi a:hover{text-decoration:underline}
+
+/* İade Noktası Kartı */
+.iade-noktasi-kutu{
+  background:var(--kart);
+  border:1.5px solid var(--abb);
+  border-left-width:6px;
+  border-radius:10px;
+  padding:12px 16px;
+  margin:12px 0 20px;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px 16px;
+  box-shadow:0 6px 16px -10px var(--golge);
+}
+.iade-noktasi-bilgi{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:.94rem;
+}
+.iade-noktasi-etiket{
+  font-weight:700;
+  color:var(--abb);
+  white-space:nowrap;
+}
+.iade-noktasi-link{
+  color:var(--metin);
+  font-weight:600;
+  text-decoration:underline;
+  text-decoration-color:var(--abb);
+  text-underline-offset:3px;
+  transition:color .15s;
+}
+.iade-noktasi-link:hover{
+  color:var(--abb);
+}
+.iade-harita-btn{
+  font-size:.82rem;
+  font-weight:600;
+  color:var(--abb);
+  background:var(--abb-ton);
+  padding:5px 12px;
+  border-radius:6px;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.iade-harita-btn:hover{
+  background:var(--abb);
+  color:#fff;
+}
 
 /* Özel Şehir Seçim Menüsü */
 .sehir-secici-sarici{position:relative;width:100%;min-width:0}
@@ -878,6 +936,13 @@ const TURISTIK_SEHIRLER = [
   ["Çankırı", 4.0, "turistik tren", "Turistik Tuz Ekspresi"]
 ];
 
+const IADE_NOKTALARI = {
+  "Konya": {
+    adres: "Konevi, Alay Cd. No:9, 42040 Meram/Konya",
+    url: "https://www.google.com/maps?gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIICAMQABgWGB4yCAgEEAAYFhgeMggIBRAAGBYYHjIICAYQABgWGB4yBggHEEUYPNIBCDU3MjFqMGo0qAIAsAIB&um=1&ie=UTF-8&fb=1&gl=tr&sa=X&geocode=KXvDVPcRhdAUMeJLx-iu9b-_&daddr=Konevi,+Alay+Cd.+No:9,+42040+Meram/Konya"
+  }
+};
+
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "şifreveşifre";
 const STORAGE_VERI_KEY = "trendeoku_ozel_kitaplar_v2";
@@ -972,7 +1037,6 @@ function oner(yolculuk) {
   }
 
   const enUzunTekli = sigan[0].sure;
-  // Tek bir kitap yolculuğun en az %85'ini dolduramıyorsa (ör. 26 saatte en uzun kitap 23.6 saatse veya 52 saatlik gidiş-dönüşte)
   const tekKitapYetersiz = enUzunTekli < yolculuk * 0.85;
   const kombinasyonlar = tekKitapYetersiz ? kombinasyonlariBul(yolculuk, sigan) : [];
 
@@ -1158,7 +1222,19 @@ function sehirKutusu(etiketMetni){
   sarici.append(tetikleyici, acilirListe);
 
   const altBilgiEl = el("span", {class: "alt-bilgi"});
-  if (bulunan) {
+  if (bulunan && IADE_NOKTALARI[bulunan[0]]) {
+    const iade = IADE_NOKTALARI[bulunan[0]];
+    altBilgiEl.append(
+      document.createTextNode("İade noktası: "),
+      el("a", {
+        href: iade.url,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        title: "Google Haritalar'da aç: " + iade.adres,
+        text: iade.adres
+      })
+    );
+  } else if (bulunan) {
     altBilgiEl.textContent = bulunan[3] ? bulunan[3] : "Ankara Garı bağlantılı hat";
   } else {
     altBilgiEl.textContent = "Yönü ortadaki okla değiştirebilirsiniz";
@@ -1252,6 +1328,31 @@ function kart(k, yolculuk, yesilMod = false, siraEtiketi = "") {
   return el("article", {class: yesilMod ? "kitap yesil-cerceve" : "kitap"}, kapakOlustur(k), govde);
 }
 
+function iadeNoktasiKutusuOlustur(sehirAdi) {
+  const iade = IADE_NOKTALARI[sehirAdi];
+  if (!iade) return null;
+
+  return el("div", { class: "iade-noktasi-kutu" },
+    el("div", { class: "iade-noktasi-bilgi" },
+      el("span", { class: "iade-noktasi-etiket", text: "📍 İade Noktası:" }),
+      el("a", {
+        class: "iade-noktasi-link",
+        href: iade.url,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        text: iade.adres
+      })
+    ),
+    el("a", {
+      class: "iade-harita-btn",
+      href: iade.url,
+      target: "_blank",
+      rel: "noopener noreferrer",
+      text: "Haritada Aç ↗"
+    })
+  );
+}
+
 function goster() {
   sonuc.replaceChildren();
   const listeKaynak = aktifSehirListesi();
@@ -1281,13 +1382,17 @@ function goster() {
   baslikEl.append(document.createTextNode(`) yaklaşık ${saat(toplamSure)} sürer`));
   sonuc.append(baslikEl);
 
+  const iadeKutu = iadeNoktasiKutusuOlustur(ad);
+  if (iadeKutu) {
+    sonuc.append(iadeKutu);
+  }
+
   const { tekli, kombinasyonlar, hepsi, cokluMod } = oner(toplamSure);
 
   if (cokluMod) {
     const enIyiKombinasyon = kombinasyonlar[0];
     const kitapAdedi = enIyiKombinasyon.kitaplar.length;
 
-    // Kullanıcının talep ettiği üst yeşil bilgilendirme kutusu
     const bilgiKutu = el("div", { class: "yesil-bilgi-kutu", role: "status" });
     bilgiKutu.append(
       document.createTextNode(`Bu yolculuğun tamamını tek başına dolduracak uzunlukta bir kitabımız bulunmadığı için, yolculuğunuz süresince bitirmek üzere `),
@@ -1297,13 +1402,12 @@ function goster() {
     );
     sonuc.append(bilgiKutu);
 
-    // Önerilen yeşil çerçeveli okuma kombinasyonları
     kombinasyonlar.forEach((komb, idx) => {
       const doluluk = Math.min(100, Math.round((komb.toplamSure / toplamSure) * 100));
       const grupEl = el("div", { class: "kombinasyon-grup" });
       grupEl.append(
         el("div", { class: "kombinasyon-ust" },
-          el("span", { class: "kombinasyon-baslik", text: `Okuma Seçeneği #${idx + 1} (${komb.kitaplar.length} Kitap Birlikte)` }),
+          el("span", { class: "kombinasyon-baslik", text: `Yeşil Okuma Seçeneği #${idx + 1} (${komb.kitaplar.length} Kitap Birlikte)` }),
           el("span", { class: "kombinasyon-ozet", text: `Toplam ${komb.toplamSayfa} sayfa • ${saat(komb.toplamSure)} (%${doluluk} doluluk)` })
         )
       );
@@ -1313,7 +1417,6 @@ function goster() {
       sonuc.append(grupEl);
     });
 
-    // Alt bölümde tekil kitap listesi de erişilebilir kalsın
     sonuc.append(
       el("h3", { class: "alt-bolum-baslik", text: "Tek Başına Bitirebileceğiniz Kitaplar" }),
       el("p", { class: "not", text: "Yolculuğun bir bölümünde tek başına bitirebileceğiniz en uzun kitaplar:" })
@@ -1327,7 +1430,6 @@ function goster() {
     return;
   }
 
-  // Standart tek kitap modu
   sonuc.append(el("p", {
     class: "not",
     text: hepsi
