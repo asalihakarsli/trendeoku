@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Trende Ne Okusam? Ankara YHT Gar Kütüphanesi kitap önerici</title>
+<title>Trende ne okusam? Ankara YHT Gar Kütüphanesi kitap önerici</title>
 <meta name="description" content="Ankara YHT Gar Kütüphanesi kataloğundan tren yolculuğunuzun süresine sığan kitapları bulun.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,24 +169,57 @@ body.turistik-mod .kar-alani{display:block}
   border-color:#ffffff;
 }
 
-/* Hero Alanı */
+/* Hero Alanı ve Entegre Arka Plan Görseli */
 .ust-bolum{
-  background:var(--abb);
+  background-color:var(--abb);
+  /* Görselimizin sol tarafına saydam bir karartma ekleyerek metinlerin okunmasını sağlıyoruz */
+  background-image: linear-gradient(to right, rgba(29, 49, 112, 0.94) 30%, rgba(29, 49, 112, 0.45) 75%, rgba(29, 49, 112, 0.1) 100%), url("image_15.png");
+  background-size: cover;
+  background-position: right bottom;
+  background-repeat: no-repeat;
   color:#fff;
-  padding:32px 0 88px;
+  padding:42px 0 96px;
   transition:background-color .25s ease;
 }
-.ust-bolum.kompakt{padding:32px 0 40px}
-@media (prefers-color-scheme:dark){.ust-bolum{background:var(--abb-koyu)}}
+.ust-bolum.kompakt{
+  padding:32px 0 40px;
+  background-image: linear-gradient(to right, rgba(29, 49, 112, 0.96) 50%, rgba(29, 49, 112, 0.6) 100%), url("image_15.png");
+}
+
+body.turistik-mod .ust-bolum {
+  background-color: var(--abb);
+  background-image: linear-gradient(to right, rgba(127, 29, 29, 0.94) 30%, rgba(127, 29, 29, 0.45) 75%, rgba(127, 29, 29, 0.1) 100%), url("image_15.png");
+}
+body.turistik-mod .ust-bolum.kompakt {
+  background-image: linear-gradient(to right, rgba(127, 29, 29, 0.96) 50%, rgba(127, 29, 29, 0.6) 100%), url("image_15.png");
+}
+
+@media (prefers-color-scheme:dark){
+  .ust-bolum{
+    background-image: linear-gradient(to right, rgba(27, 33, 43, 0.94) 35%, rgba(27, 33, 43, 0.4) 80%, rgba(27, 33, 43, 0.1) 100%), url("image_15.png");
+  }
+  .ust-bolum.kompakt{
+    background-image: linear-gradient(to right, rgba(27, 33, 43, 0.96) 55%, rgba(27, 33, 43, 0.5) 100%), url("image_15.png");
+  }
+  body.turistik-mod .ust-bolum {
+    background-image: linear-gradient(to right, rgba(36, 23, 23, 0.94) 35%, rgba(36, 23, 23, 0.4) 80%, rgba(36, 23, 23, 0.1) 100%), url("image_15.png");
+  }
+  body.turistik-mod .ust-bolum.kompakt {
+    background-image: linear-gradient(to right, rgba(36, 23, 23, 0.96) 55%, rgba(36, 23, 23, 0.5) 100%), url("image_15.png");
+  }
+}
+
 .hero-alt-satir{
   display:flex;
   justify-content:space-between;
   align-items:flex-end;
   gap:16px;
   flex-wrap:wrap;
+  position: relative;
+  z-index: 2;
 }
-h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weight:700;letter-spacing:-0.02em}
-.giris{margin:0;max-width:54ch;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,.9)}
+h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weight:700;letter-spacing:-0.02em;position: relative;z-index: 2;}
+.giris{margin:0;max-width:54ch;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,.95);position: relative;z-index: 2;text-shadow: 0 1px 3px rgba(0,0,0,0.3);}
 
 /* Turistik Tren Geçiş Butonu */
 .turistik-btn{
@@ -194,7 +227,7 @@ h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weigh
   font-size:.9rem;
   font-weight:600;
   color:#fff;
-  background:rgba(255,255,255,.15);
+  background:rgba(0,0,0,.35);
   border:1.5px solid rgba(255,255,255,.45);
   padding:9px 16px;
   border-radius:10px;
@@ -437,7 +470,7 @@ h2{margin:0 0 var(--a1);font-size:1.45rem;line-height:1.3;font-weight:700}
 .not{margin:0 0 var(--a3);color:var(--soluk);max-width:64ch}
 .bos{padding:var(--a3);border:1.5px dashed var(--cizgi);border-radius:10px;color:var(--soluk);background:var(--kart)}
 
-/* Çoklu Ödünç Alma Bilgilendirme Kutusu */
+/* Yeşil Çoklu Ödünç Alma Bilgilendirme Kutusu */
 .yesil-bilgi-kutu{
   position:relative;
   background:var(--paket-yesil-ton);
@@ -744,7 +777,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
 
 <header class="ust-bolum" id="heroAlan">
   <div class="kap">
-    <h1 id="heroBaslik">Trende Ne Okusam?</h1>
+    <h1 id="heroBaslik">Trende ne okusam?</h1>
     <div class="hero-alt-satir">
       <p class="giris" id="heroAciklama">Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.</p>
       <button type="button" class="turistik-btn" id="turistikToggleBtn" aria-pressed="false">
@@ -780,8 +813,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
       <summary>Notlar ve sınırlamalar</summary>
       <p>Okunma süresi, sayfa sayısının saatte 40 sayfa okuma hızına bölünmesiyle tahmin edilir. Herkesin hızı farklıdır.</p>
       <p>Yolculuk süreleri yaklaşık değerdir; bilet almadan önce resmi tarifeyi kontrol edin. Kayseri ve sonrasındaki hatlar hızlı tren değil, konvansiyonel trenlerdir; turistik tren seferleri ise mevsimsel tarifeye göre işletilir.</p>
-      <p>Veri, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan örnek veri setidir.</p>
-      <p>Sitenin yapımında Gemini AI'dan yardım alınmıştır. Yapay zeka hata yapabilir.</p>
+      <p>Veri, Ankara Büyükşehir Belediyesi kütüphane kataloğundan alınan örnek veri setidir; Admin panelinden güncel katalog dosyası yüklenebilir.</p>
     </details>
   </div>
 
@@ -813,6 +845,7 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
       <ul>
         <li>Okuma hızı sabit olarak saatte 40 sayfa kabul edilmiştir; kişisel okuma hızınıza göre süre değişebilir.</li>
         <li>Yolculuk süreleri yaklaşık değerlerdir; resmi TCDD Taşımacılık tarifesiyle doğrulanmalıdır.</li>
+        <li>Katalog tarayıcı (<span class="kod-etiket">scraper.py</span>), sunucuya yük bindirmemek için istekler arasında 2,5 saniye bekler.</li>
       </ul>
     </article>
   </div>
@@ -1086,7 +1119,7 @@ function heroGuncelle() {
     heroAlan.classList.remove("kompakt");
     turistikBtn.style.display = "inline-flex";
     if (turistikMod) {
-      baslikEl.textContent = "Turistik Trende Ne Okusam?";
+      baslikEl.textContent = "Turistik trende ne okusam?";
       aciklamaEl.textContent = "TCDD Turistik Tren rotanızı ve yolculuk tipinizi seçin; uzun kış masalı yolculuğunuza sığan kitapları önerelim.";
     } else {
       baslikEl.textContent = "Trende ne okusam?";
@@ -1407,7 +1440,7 @@ function goster() {
       const grupEl = el("div", { class: "kombinasyon-grup" });
       grupEl.append(
         el("div", { class: "kombinasyon-ust" },
-          el("span", { class: "kombinasyon-baslik", text: `Okuma Seçeneği #${idx + 1} (${komb.kitaplar.length} Kitap Birlikte)` }),
+          el("span", { class: "kombinasyon-baslik", text: `Yeşil Okuma Seçeneği #${idx + 1} (${komb.kitaplar.length} Kitap Birlikte)` }),
           el("span", { class: "kombinasyon-ozet", text: `Toplam ${komb.toplamSayfa} sayfa • ${saat(komb.toplamSure)} (%${doluluk} doluluk)` })
         )
       );
