@@ -220,33 +220,57 @@ body.turistik-mod .ust-bolum.kompakt {
 h1{margin:0 0 10px;font-size:clamp(2rem,5vw,2.65rem);line-height:1.15;font-weight:700;letter-spacing:-0.02em;position: relative;z-index: 2;}
 .giris{margin:0;max-width:54ch;font-size:1.05rem;line-height:1.55;color:rgba(255,255,255,.95);position: relative;z-index: 2;text-shadow: 0 1px 3px rgba(0,0,0,0.3);}
 
-/* Turistik Tren Geçiş Butonu */
+/* Turistik Tren Geçiş Butonu ve Üstündeki Tren GIF'i */
+.turistik-btn-sarici{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:stretch;
+  position:relative;
+  flex-shrink:0;
+}
+.turistik-btn-gif{
+  display:block;
+  width:100%;
+  height:60px;
+  object-fit:fill;
+  margin-bottom:-3px;
+  pointer-events:none;
+  user-select:none;
+  position:relative;
+  z-index:2;
+}
 .turistik-btn{
   font:inherit;
-  font-size:.9rem;
-  font-weight:600;
+  font-size:1.08rem;
+  font-weight:700;
   color:#fff;
-  background:rgba(0,0,0,.35);
-  border:1.5px solid rgba(255,255,255,.45);
-  padding:9px 16px;
-  border-radius:10px;
+  background:rgba(0,0,0,.38);
+  border:2px solid rgba(255,255,255,.65);
+  padding:14px 28px;
+  min-width:224px;
+  border-radius:12px;
   cursor:pointer;
   display:inline-flex;
   align-items:center;
-  gap:8px;
+  justify-content:center;
+  gap:10px;
   backdrop-filter:blur(4px);
+  box-shadow:0 6px 18px rgba(0,0,0,.22);
   transition:all .18s ease;
   white-space:nowrap;
+  position:relative;
+  z-index:1;
 }
 .turistik-btn:hover{
   background:rgba(255,255,255,.26);
   transform:translateY(-1px);
+  box-shadow:0 8px 22px rgba(0,0,0,.28);
 }
 body.turistik-mod .turistik-btn{
   background:#ffffff;
   color:#991b1b;
   border-color:#ffffff;
-  box-shadow:0 4px 14px rgba(0,0,0,.22);
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
 main{padding:0 0 var(--a6)}
@@ -965,10 +989,13 @@ details p{margin:var(--a2) 0 0;max-width:68ch}
     <h1 id="heroBaslik">Trende ne okusam?</h1>
     <div class="hero-alt-satir">
       <p class="giris" id="heroAciklama">Güzergahınızı ve yolculuk tipinizi seçin; sürenize sığan kitapları Ankara YHT Gar Kütüphanesi kataloğundan önerelim.</p>
-      <button type="button" class="turistik-btn" id="turistikToggleBtn" aria-pressed="false">
-        <span aria-hidden="true">❄️</span>
-        <span id="turistikBtnYazi">Turistik Tren</span>
-      </button>
+      <div class="turistik-btn-sarici" id="turistikBtnSarici">
+        <img src="./turistik-tren.gif" alt="" class="turistik-btn-gif" aria-hidden="true">
+        <button type="button" class="turistik-btn" id="turistikToggleBtn" aria-pressed="false">
+          <span aria-hidden="true">❄️</span>
+          <span id="turistikBtnYazi">Turistik Tren</span>
+        </button>
+      </div>
     </div>
   </div>
 </header>
@@ -1537,11 +1564,11 @@ function heroGuncelle() {
   const baslikEl = document.getElementById("heroBaslik");
   const aciklamaEl = document.getElementById("heroAciklama");
   const heroAlan = document.getElementById("heroAlan");
-  const turistikBtn = document.getElementById("turistikToggleBtn");
+  const turistikSarici = document.getElementById("turistikBtnSarici");
 
   if (aktifSayfa === "ana") {
     heroAlan.classList.remove("kompakt");
-    turistikBtn.style.display = "inline-flex";
+    turistikSarici.style.display = "inline-flex";
     if (turistikMod) {
       baslikEl.textContent = "Turistik trende ne okusam?";
       aciklamaEl.textContent = "TCDD Turistik Tren rotanızı, yolculuk tipinizi ve modunuzu seçin; uzun kış masalı yolculuğunuza sığan kitapları önerelim.";
@@ -1551,12 +1578,12 @@ function heroGuncelle() {
     }
   } else if (aktifSayfa === "beni-oku") {
     heroAlan.classList.add("kompakt");
-    turistikBtn.style.display = "none";
+    turistikSarici.style.display = "none";
     baslikEl.textContent = "Beni Oku";
     aciklamaEl.textContent = "Ankara YHT Gar Kütüphanesi kitap öneri sisteminin mimarisi, veri toplama süreci ve kullanım rehberi.";
   } else if (aktifSayfa === "admin") {
     heroAlan.classList.add("kompakt");
-    turistikBtn.style.display = "none";
+    turistikSarici.style.display = "none";
     baslikEl.textContent = "Yönetim Paneli";
     aciklamaEl.textContent = "Kütüphane veri setini güncelleyin, kapak görseli ve özet bilgisiyle yeni kitaplar ekleyin.";
   }
